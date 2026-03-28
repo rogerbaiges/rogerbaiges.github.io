@@ -4,9 +4,7 @@ import sitemap from '@astrojs/sitemap';
 import tailwindcss from '@tailwindcss/vite';
 
 export default defineConfig({
-  // Replace with your actual GitHub Pages URL
-  site: 'https://yy-gx.github.io',
-  base: '/Lumina',
+  site: 'https://rogerbaiges.github.io',
   integrations: [mdx(), sitemap()],
   output: 'static',
   vite: {
