@@ -9,11 +9,11 @@ if (!config.pages.awards) return Astro.redirect('/404');
 const awards = loadCVData().awards;
 ---
 
-<BaseLayout title="Awards" description="Selected distinctions I've received across academic work and competitions.">
+<BaseLayout title="Awards" description="Selected distinctions across academic work, competitions, and project-based challenges.">
   <div class="page-header animate-on-scroll">
     <h1 class="text-3xl">Awards</h1>
     <p class="mt-3 max-w-3xl text-[var(--color-text-secondary)]">
-      A selective list of distinctions I've received across academic work, competitions, and project-based challenges.
+      A compact overview of the distinctions that best reflect my academic record, project initiative, and competitive work.
     </p>
   </div>
 
@@ -24,6 +24,7 @@ const awards = loadCVData().awards;
         <div>
           <h2 class="award-entry-title">{award.title}</h2>
           <p class="award-entry-org">{award.organization}</p>
+          {award.description && <p class="mt-2 text-sm text-[var(--color-text-secondary)]">{award.description}</p>}
         </div>
       </article>
     ))}

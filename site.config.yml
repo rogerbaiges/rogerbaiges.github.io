@@ -2,19 +2,19 @@
 
 site:
   title: "Roger Baiges"
-  description: "Personal website of Roger Baiges, an AI student at UPC with research experience at CVC and Serimag, working across foundation models, reliable machine learning, and AI systems."
+  description: "Personal website of Roger Baiges, an AI student at UPC and research intern at CVC working across foundation models, multimodal learning, reliable machine learning, and AI systems."
   url: "https://rogerbaiges.github.io"
   language: "en"
 
 profile:
   name: "Roger Baiges"
-  position: "Artificial Intelligence Student"
-  affiliation: "Universitat Politècnica de Catalunya (UPC)"
-  university: "Research Intern at CVC"
+  position: "AI Student and Research Intern"
+  affiliation: "Centre de Visio per Computador (CVC)"
+  university: "Universitat Politècnica de Catalunya (UPC)"
   email: "rogerbaigestrilla@gmail.com"
   avatar: "/images/profile.jpg"
-  bio: "I'm an AI student at UPC with research experience at CVC and Serimag, interested in foundation models, reliable machine learning, and research-driven AI systems."
-  bio_short: "I'm an AI student at UPC working across foundation models, reliable machine learning, and research-driven AI systems."
+  bio: "I'm an AI student at UPC and research intern at CVC with experience in foundation models, multimodal learning, reliable machine learning, and applied AI systems."
+  bio_short: "I build and analyze AI systems across foundation models, multimodal learning, and reliable machine learning."
 
 social:
   google_scholar: ""

@@ -39,6 +39,7 @@ export interface ResearchContent {
     thesis_note: string;
     questions: string[];
     methods: string[];
+    findings?: string[];
   };
   interests: { title: string; description: string }[];
   future_direction: string;
@@ -139,6 +140,7 @@ export function loadResearchContent(): ResearchContent {
       thesis_note: '',
       questions: [],
       methods: [],
+      findings: [],
     },
     interests: [],
     future_direction: '',

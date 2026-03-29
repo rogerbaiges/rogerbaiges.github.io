@@ -9,11 +9,11 @@ if (!config.pages.research) return Astro.redirect('/404');
 const research = loadResearchContent();
 ---
 
-<BaseLayout title="Research" description="What I'm working on in research right now and where I want to go next.">
+<BaseLayout title="Research" description="My research focuses on adaptation, forgetting, and recovery in foundation models, with current thesis work at CVC on OpenCLIP.">
   <div class="page-header animate-on-scroll">
     <h1 class="text-3xl">Research</h1>
     <p class="mt-3 max-w-3xl text-[var(--color-text-secondary)]">
-      My current thesis work and the research questions that matter most to me right now.
+      My current thesis at CVC, the questions it raises, and the broader direction I'm building toward.
     </p>
   </div>
 
@@ -28,10 +28,11 @@ const research = loadResearchContent();
       <h2 class="research-title">{research.current_project.title}</h2>
       <p class="research-org">{research.current_project.organization}</p>
       <p class="mt-4 text-[var(--color-text-secondary)]">{research.current_project.summary}</p>
+      <p class="research-context">{research.current_project.thesis_note}</p>
     </article>
   </section>
 
-  <div class="mt-6 grid gap-4 md:grid-cols-2">
+  <div class="mt-6 grid gap-4 lg:grid-cols-3">
     <article class="research-panel animate-on-scroll">
       <p class="research-kicker">Questions</p>
       <ul class="research-list">
@@ -49,6 +50,17 @@ const research = loadResearchContent();
         ))}
       </ul>
     </article>
+
+    {research.current_project.findings && research.current_project.findings.length > 0 && (
+      <article class="research-panel animate-on-scroll">
+        <p class="research-kicker">Early Evidence</p>
+        <ul class="research-list">
+          {research.current_project.findings.map(finding => (
+            <li>{finding}</li>
+          ))}
+        </ul>
+      </article>
+    )}
   </div>
 
   <section class="mt-6 animate-on-scroll">
@@ -62,6 +74,9 @@ const research = loadResearchContent();
           </div>
         ))}
       </div>
+      <div class="research-divider" aria-hidden="true"></div>
+      <p class="research-kicker">Next Direction</p>
+      <p class="research-forward">{research.future_direction}</p>
     </article>
   </section>
 </BaseLayout>
@@ -120,6 +135,14 @@ const research = loadResearchContent();
     padding-right: min(3rem, 4vw);
   }
 
+  .research-context {
+    margin-top: 0.95rem;
+    max-width: 48rem;
+    font-size: 0.95rem;
+    line-height: 1.65;
+    color: var(--color-text-secondary);
+  }
+
   .interest-grid {
     margin-top: 0.95rem;
     display: grid;
@@ -139,6 +162,18 @@ const research = loadResearchContent();
   .interest-text {
     margin-top: 0.35rem;
     color: var(--color-text-secondary);
+  }
+
+  .research-divider {
+    margin: 1.2rem 0 1rem;
+    border-top: 1px solid var(--color-border);
+  }
+
+  .research-forward {
+    margin-top: 0.75rem;
+    max-width: 46rem;
+    color: var(--color-text-secondary);
+    line-height: 1.68;
   }
 
   @media (min-width: 860px) {

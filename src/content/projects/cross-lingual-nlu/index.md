@@ -1,10 +1,11 @@
 ---
 title: "CatGPT"
-description: "An LLM prototype I used to explore conversational UX, prompting, and system behavior."
-category: "Applied LLM Systems"
-tags: ["llm systems", "conversational ai", "prototyping"]
+description: "111M-parameter Catalan language model trained from scratch, released in base and instruction-tuned variants."
+category: "Low-Resource Language Model"
+tags: ["catalan", "language model", "training from scratch"]
 github: "https://github.com/rogerbaiges/CatGPT"
+url: "https://huggingface.co/baiges"
 featured: true
 order: 1
 ---
-I built it as a practical way to learn how model capability translates into a usable system.
+I built CatGPT to explore low-resource language modeling for Catalan, combining careful data curation with synthetic token strategies and an end-to-end training pipeline.

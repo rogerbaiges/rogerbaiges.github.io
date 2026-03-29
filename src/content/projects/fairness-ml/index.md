@@ -1,10 +1,10 @@
 ---
 title: "IpurdIAr"
-description: "An applied AI prototype built around a concrete workflow and clear end-user value."
-category: "Applied AI Prototype"
-tags: ["ai product", "experimentation", "workflow design"]
+description: "AI ecosystem for tactical football analysis that turns tracking data and match commentary into a conversational coaching tool."
+category: "Sports AI System"
+tags: ["multimodal", "football analytics", "conversational ai"]
 github: "https://github.com/FLOOREES/IpurdIArs-more-than-a-hack"
 featured: false
 order: 3
 ---
-This project let me combine technical experimentation with a more grounded workflow perspective.
+Built for real-time use by coaching staffs, it transforms raw coordinates and commentary into an interactive tactical assistant. It won Barça Innovation Hack 2026, first prize among more than 3,500 applicants.

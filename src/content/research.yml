@@ -1,26 +1,33 @@
-overview: "I'm interested in how large AI systems adapt, fail, and remain reliable, especially in foundation and multimodal settings."
+overview: "I study how foundation models adapt, fail, and recover, especially in multimodal settings where reliability and internal representation structure both matter."
 
 current_project:
-  title: "Catastrophic forgetting in OpenCLIP"
-  organization: "Centre de Visio per Computador (CVC)"
-  summary: "At CVC, my bachelor's thesis studies catastrophic forgetting in OpenCLIP. I'm interested in where forgetting appears, how it changes representations, and which analyses help diagnose it early."
-  thesis_note: ""
+  title: "Mechanistic diagnosis of catastrophic forgetting in OpenCLIP"
+  organization: "Bachelor's thesis at Centre de Visio per Computador (CVC)"
+  summary: "My bachelor's thesis at CVC studies catastrophic forgetting in OpenCLIP and related foundation-model settings. I'm interested in whether forgetting under adaptation is true erasure or a more structured internal drift, because that distinction matters for making fine-tuning more reliable, more diagnosable, and easier to repair."
+  thesis_note: "This work takes place in the broader LAMP environment at CVC, led by Joost van de Weijer, and is shaped by interaction with Alexandra Gomez-Villa, researcher at CVC and assistant professor at UAB, and Fan Lyu, postdoctoral researcher at CVC."
   questions:
-    - "Where does forgetting show up most clearly during continued adaptation?"
-    - "Which changes reflect shallow degradation, and which signal deeper representational drift?"
+    - "When OpenCLIP forgets after LoRA adaptation, which capabilities are actually erased and which are only drifting?"
+    - "Can sparse, interpretable features recover most of the lost behavior without dense interventions?"
   methods:
-    - "Layerwise and representational analysis"
-    - "Tracking forgetting dynamics during adaptation"
-    - "Evaluation in multimodal settings"
+    - "LoRA adaptation in a realistic forgetting setup"
+    - "Representation-level analysis before and after adaptation"
+    - "Pre-trained Sparse Autoencoders as an interpretability lens"
+    - "Post-hoc dense and sparse steering interventions"
+  findings:
+    - "In my current setup, adaptation reduces zero-shot performance from about 70% to 38.1%."
+    - "Dense steering recovers Task B up to 74.7%."
+    - "Sparse steering with K=1 recovers Task B to 68.2% while using only 15.1% of the energy."
+    - "The current evidence suggests forgetting often behaves more like structured fading or semantic drift than random collapse."
+    - "Sparse interventions recover much of the lost capability while remaining more interpretable than dense recovery."
 
 interests:
-  - title: "Mechanistic Interpretability"
-    description: "Tools that make model behavior easier to inspect and diagnose."
-  - title: "Foundation and Multimodal Models"
-    description: "Large models whose internal structure matters for downstream behavior and adaptation."
+  - title: "Foundation Models"
+    description: "How large pretrained models adapt, transfer, and fail under realistic updates."
+  - title: "Multimodal Learning"
+    description: "Vision-language systems and other settings where representation structure matters."
   - title: "Reliable Machine Learning"
-    description: "Failure modes, uncertainty, and systems that remain dependable in practice."
+    description: "Calibration, abstention, failure analysis, and methods that make AI systems easier to trust in practice."
 
-future_direction: "For graduate study, I'm looking for environments where I can work on foundation models, interpretability, and robust learning with both empirical depth and technical seriousness."
+future_direction: "A natural next direction is to extend these ideas toward continual learning: understanding when structured internal drift can be detected, interpreted, and reversed during ongoing adaptation."
 
 publication_note: "I don't list publications yet because my current research is still in progress."

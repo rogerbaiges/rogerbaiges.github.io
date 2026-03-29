@@ -1,26 +1,26 @@
 hero:
-  eyebrow: "AI student at Universitat Politècnica de Catalunya (UPC)"
-  statement: "I work across foundation models, reliable machine learning, and research-driven AI systems."
-  summary: "My profile combines strong fundamentals at UPC, current thesis research at CVC, and prior applied AI work at Serimag."
-  note: "I'm building toward graduate study through careful research, strong fundamentals, and work at the boundary between research and systems."
+  eyebrow: "AI student at UPC · Research Intern at CVC"
+  statement: "I build and analyze AI systems across foundation models, multimodal learning, and reliable machine learning."
+  summary: "I'm an AI student at UPC with a 9.10/10 GPA, current bachelor's thesis research at CVC, and previous work at Serimag on high-reliability document AI."
+  note: "I'm building toward graduate study through strong fundamentals, research experience, and technically ambitious systems work."
   metrics:
     - "GPA 9.10/10"
-    - "Research at CVC"
-    - "AI systems at Serimag"
+    - "KU Leuven, strong results"
+    - "7 honour distinctions"
 
 highlights:
   - label: "Research"
-    value: "CVC thesis"
-    description: "I'm studying catastrophic forgetting in OpenCLIP as part of my bachelor's thesis."
+    value: "CVC thesis on OpenCLIP"
+    description: "I study catastrophic forgetting in foundation models using Sparse Autoencoders, steering, and representation analysis."
   - label: "Systems"
-    value: "Serimag internship"
-    description: "I worked on vision-language and document extraction systems where reliability and calibrated confidence mattered."
-  - label: "Trajectory"
-    value: "UPC · KU Leuven · competitions"
-    description: "I care about fundamentals, initiative, and building comfortably across both research and systems."
+    value: "Serimag document AI"
+    description: "At Serimag, I helped move financial-document extraction from OCR-plus-rules toward trainable Vision-Language Models, and studied whether model probabilities could support abstention for high-precision use."
+  - label: "Foundations"
+    value: "UPC · KU Leuven · 7 honours"
+    description: "My training combines strong coursework at UPC, excellent results in demanding master's-level AI classes at KU Leuven, and consistent honours across the degree."
 
 contact:
-  intro: "I'm always happy to talk about research, graduate study, or ambitious AI projects with a real technical core."
+  intro: "I'm happy to talk about research, graduate study, foundation models, multimodal systems, or technically ambitious AI work."
   location: "Barcelona, Spain"
   links:
     - label: "Email"

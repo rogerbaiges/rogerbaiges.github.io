@@ -1,10 +1,10 @@
 ---
 title: "GPTasty"
-description: "A fast-moving LLM project focused on prototyping and practical system design."
-category: "LLM Prototype"
-tags: ["rapid prototyping", "llm applications", "product execution"]
+description: "Hybrid decision-support system for personalized nutrition and meal planning."
+category: "Hybrid Recommender"
+tags: ["sbert", "fuzzy logic", "computer vision"]
 github: "https://github.com/abrilrisso/GPTasty"
 featured: false
 order: 4
 ---
-I include it here as another example of how I like to learn by building quickly and iterating on concrete systems.
+I built GPTasty as a university project combining SBERT recipe embeddings, knowledge-based rules, ontology reasoning, and image recognition for meal recommendations.
