@@ -1,34 +1,67 @@
 ---
 import BaseLayout from '@components/layout/BaseLayout.astro';
 import { getConfig } from '@lib/config';
-import fs from 'node:fs';
-import path from 'node:path';
-import yaml from 'yaml';
+import { loadCVData } from '@lib/content';
 
 const config = getConfig();
 if (!config.pages.awards) return Astro.redirect('/404');
 
-let awards: any[] = [];
-try {
-  const cvPath = path.resolve(process.cwd(), 'src/content/cv/cv.yml');
-  const data = yaml.parse(fs.readFileSync(cvPath, 'utf-8'));
-  awards = data.awards || [];
-} catch {}
+const awards = loadCVData().awards;
 ---
 
-<BaseLayout title="Awards" description="Honors and awards">
-  <div class="animate-on-scroll">
-    <h1 class="text-3xl font-bold mb-8">Awards &amp; Honors</h1>
+<BaseLayout title="Awards" description="Selected distinctions I've received across academic work and competitions.">
+  <div class="page-header animate-on-scroll">
+    <h1 class="text-3xl">Awards</h1>
+    <p class="mt-3 max-w-3xl text-[var(--color-text-secondary)]">
+      A selective list of distinctions I've received across academic work, competitions, and project-based challenges.
+    </p>
   </div>
-  <div class="space-y-3">
+
+  <div class="space-y-4">
     {awards.map(award => (
-      <div class="flex items-start gap-4 p-4 rounded-xl hover:bg-[var(--color-card-bg)] transition-colors animate-on-scroll">
-        <span class="text-sm font-mono text-[var(--color-text-secondary)] shrink-0 min-w-[3rem]">{award.year}</span>
+      <article class="award-entry animate-on-scroll">
+        <div class="award-entry-date">{award.date}</div>
         <div>
-          <p class="font-medium">{award.title}</p>
-          <p class="text-sm text-[var(--color-text-secondary)]">{award.organization}</p>
+          <h2 class="award-entry-title">{award.title}</h2>
+          <p class="award-entry-org">{award.organization}</p>
         </div>
-      </div>
+      </article>
     ))}
   </div>
 </BaseLayout>
+
+<style>
+  .award-entry {
+    display: grid;
+    gap: 0.75rem;
+    padding: 1.25rem;
+    border-radius: 16px;
+    border: 1px solid var(--color-border);
+    background: color-mix(in srgb, var(--color-card-bg) 98%, transparent);
+  }
+
+  .award-entry-date {
+    font-family: var(--font-mono);
+    font-size: 0.78rem;
+    color: var(--color-text-secondary);
+  }
+
+  .award-entry-title {
+    font-size: 1.28rem;
+    line-height: 1.14;
+  }
+
+  .award-entry-org {
+    margin-top: 0.3rem;
+    color: var(--color-accent);
+    font-size: 0.95rem;
+  }
+
+  @media (min-width: 768px) {
+    .award-entry {
+      grid-template-columns: 8rem minmax(0, 1fr);
+      gap: 1.25rem;
+      align-items: start;
+    }
+  }
+</style>

@@ -1,30 +1,444 @@
 ---
 import BaseLayout from '@components/layout/BaseLayout.astro';
-import Hero from '@components/home/Hero.astro';
-import SelectedPapers from '@components/home/SelectedPapers.astro';
-import NewsWidget from '@components/home/NewsWidget.astro';
 import { getConfig } from '@lib/config';
-import fs from 'node:fs';
-import path from 'node:path';
+import { loadCVData, loadProfileContent, loadProjects } from '@lib/content';
+import SocialIcon from '@components/ui/SocialIcon.astro';
 
 const config = getConfig();
+const profile = loadProfileContent();
+const cvData = loadCVData();
+const projects = loadProjects().slice(0, 4);
+const selectedAwards = cvData.awards.slice(0, 4);
+const cvDownloadPath = '/files/RogerBaigesCV.pdf';
 
-// Check if there are actual news items to show
-let hasNews = false;
-try {
-  const newsDir = path.resolve(process.cwd(), 'src/content/news');
-  const files = fs.readdirSync(newsDir).filter(f => f.endsWith('.md'));
-  hasNews = files.length > 0;
-} catch {}
-
-const gridCols = hasNews ? 'lg:grid-cols-2' : '';
+function isExternalLink(href: string): boolean {
+  return href.startsWith('http');
+}
 ---
 
-<BaseLayout>
-  <Hero />
+<BaseLayout description="I'm Roger Baiges, an AI student at UPC with research experience at CVC and Serimag, working across foundation models, reliable machine learning, and AI systems.">
+  <section class="hero-section animate-on-scroll">
+    <div class="grid gap-12 lg:grid-cols-[minmax(0,1fr)_360px] items-start">
+      <div>
+        <p class="hero-greeting">Hi, I'm {config.profile.name}.</p>
+        <p class="hero-kicker">{profile.hero.eyebrow}</p>
+        <h1 class="hero-title">{profile.hero.statement}</h1>
+        <p class="hero-summary">{profile.hero.summary}</p>
 
-  <div class={`mt-8 grid grid-cols-1 ${gridCols} gap-12`}>
-    <SelectedPapers />
-    {hasNews && <NewsWidget />}
-  </div>
+        <div class="hero-metrics">
+          {(profile.hero.metrics || []).map(metric => (
+            <span class="hero-metric">{metric}</span>
+          ))}
+        </div>
+
+        <div class="hero-actions">
+          <a href={cvDownloadPath} class="btn-primary hero-download-btn" download="RogerBaigesCV.pdf">
+            <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true">
+              <path d="M12 3v11m0 0 4-4m-4 4-4-4M5 19h14" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" />
+            </svg>
+            Download CV
+          </a>
+          <a href="/research" class="hero-secondary-link">Research</a>
+          <a href="/projects" class="hero-secondary-link">Projects</a>
+        </div>
+
+        <div class="hero-socials">
+          {profile.contact.links.map(link => (
+            <a
+              href={link.href}
+              target={isExternalLink(link.href) ? '_blank' : undefined}
+              rel={isExternalLink(link.href) ? 'noopener noreferrer' : undefined}
+              class="hero-social-link"
+              aria-label={`${link.label}: ${link.value}`}
+            >
+              <span class="hero-social-icon" aria-hidden="true">
+                <SocialIcon kind={link.label} class="h-4 w-4" />
+              </span>
+              <span>{link.label}</span>
+            </a>
+          ))}
+        </div>
+
+        <p class="hero-note">{profile.hero.note}</p>
+      </div>
+
+      <aside class="hero-photo-panel">
+        <div class="hero-photo-shell">
+          <img
+            src={config.profile.avatar}
+            alt={config.profile.name}
+            class="hero-photo"
+          />
+        </div>
+
+        <div class="hero-now-card">
+          <p class="mini-label">Now</p>
+          <h2 class="hero-now-title">Research intern at CVC</h2>
+          <p class="mt-3 text-sm text-[var(--color-text-secondary)]">
+            I'm currently doing my bachelor's thesis on catastrophic forgetting in OpenCLIP. More broadly, I'm interested in foundation models, reliability, and research-driven AI systems.
+          </p>
+        </div>
+      </aside>
+    </div>
+  </section>
+
+  <section class="home-section animate-on-scroll">
+    <div class="section-header">
+      <p class="section-kicker">At a Glance</p>
+      <h2 class="section-title">Research, systems, and the foundations I'm building on.</h2>
+    </div>
+
+    <div class="grid gap-4 md:grid-cols-3">
+      {profile.highlights.map(highlight => (
+        <article class="info-card">
+          <p class="mini-label">{highlight.label}</p>
+          <h3 class="info-card-title">{highlight.value}</h3>
+          <p class="mt-3 text-sm text-[var(--color-text-secondary)]">{highlight.description}</p>
+        </article>
+      ))}
+    </div>
+  </section>
+
+  <section class="home-section animate-on-scroll">
+    <div class="section-header">
+      <p class="section-kicker">Selected Projects</p>
+      <h2 class="section-title">Projects that show how I like to learn by building.</h2>
+    </div>
+
+    <div class="grid gap-4 md:grid-cols-2">
+      {projects.map(project => (
+        <a
+          href={project.github || project.url || '/projects'}
+          target={isExternalLink(project.github || project.url || '') ? '_blank' : undefined}
+          rel={isExternalLink(project.github || project.url || '') ? 'noopener noreferrer' : undefined}
+          class="project-card project-card-link"
+        >
+          <p class="mini-label">{project.category}</p>
+          <h3 class="project-title">{project.title}</h3>
+          <p class="mt-3 text-[var(--color-text-secondary)]">{project.description}</p>
+          <div class="project-card-footer">
+            <div class="project-tags">
+              {project.tags.slice(0, 2).map(tag => (
+                <span>{tag}</span>
+              ))}
+            </div>
+            <span class="project-card-action">
+              {project.github ? 'GitHub' : 'Open project'}
+              <span aria-hidden="true">↗</span>
+            </span>
+          </div>
+        </a>
+      ))}
+    </div>
+  </section>
+
+  <section class="home-section animate-on-scroll">
+    <div class="section-header">
+      <p class="section-kicker">Recognition</p>
+      <h2 class="section-title">A few academic and competition signals from the last few years.</h2>
+    </div>
+
+    <div class="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
+      {selectedAwards.map(award => (
+        <article class="recognition-card">
+          <p class="mini-label">{award.date}</p>
+          <h3 class="recognition-title">{award.title}</h3>
+          <p class="mt-2 text-sm text-[var(--color-text-secondary)]">{award.organization}</p>
+        </article>
+      ))}
+    </div>
+
+    <div class="home-closing">
+      <p class="text-[var(--color-text-secondary)]">
+        I use this site as a selective overview of the work, interests, and direction I'm building toward.
+      </p>
+      <div class="mt-5 flex flex-wrap gap-3">
+        <a href="/cv" class="hero-secondary-link">CV</a>
+        <a href="/contact" class="hero-secondary-link">Get in touch</a>
+      </div>
+    </div>
+  </section>
 </BaseLayout>
+
+<style>
+  .hero-section {
+    padding-top: 1rem;
+  }
+
+  .hero-greeting {
+    font-family: var(--font-heading);
+    font-size: clamp(1.2rem, 2vw, 1.55rem);
+    font-weight: 560;
+    letter-spacing: -0.03em;
+    color: var(--color-text);
+  }
+
+  .hero-kicker,
+  .section-kicker,
+  .mini-label {
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    letter-spacing: 0.07em;
+    text-transform: uppercase;
+    color: var(--color-text-secondary);
+  }
+
+  .hero-title {
+    margin-top: 0.7rem;
+    max-width: 12ch;
+    font-size: clamp(2.3rem, 4.5vw, 4rem);
+    line-height: 0.98;
+    letter-spacing: -0.05em;
+  }
+
+  .hero-summary {
+    margin-top: 1.15rem;
+    max-width: 34rem;
+    font-size: 1rem;
+    line-height: 1.72;
+    color: var(--color-text-secondary);
+  }
+
+  .hero-metrics {
+    margin-top: 1.4rem;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.55rem;
+  }
+
+  .hero-actions {
+    margin-top: 1.6rem;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    align-items: center;
+  }
+
+  .hero-download-btn {
+    min-width: 10.75rem;
+    justify-content: center;
+  }
+
+  .hero-metric {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.34rem 0.72rem;
+    border-radius: 999px;
+    border: 1px solid var(--color-border);
+    background: rgba(255, 255, 255, 0.52);
+    color: var(--color-text);
+    font-size: 0.79rem;
+  }
+
+  .hero-secondary-link {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.7rem 1.05rem;
+    border-radius: 14px;
+    border: 1px solid var(--color-border);
+    color: var(--color-text);
+    font-size: 0.92rem;
+    transition: border-color var(--transition-base), color var(--transition-base), background-color var(--transition-base), box-shadow var(--transition-base), transform var(--transition-base);
+  }
+
+  .hero-secondary-link:hover {
+    border-color: var(--color-accent);
+    background: color-mix(in srgb, var(--color-accent) 5%, var(--color-card-bg));
+    color: var(--color-accent);
+    box-shadow: var(--shadow-sm);
+    transform: translateY(-1px);
+    text-decoration: none;
+  }
+
+  .hero-socials {
+    margin-top: 1rem;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.7rem;
+  }
+
+  .hero-social-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.55rem;
+    padding: 0.55rem 0.8rem;
+    border-radius: 999px;
+    border: 1px solid color-mix(in srgb, var(--color-border) 90%, transparent);
+    background: color-mix(in srgb, var(--color-card-bg) 90%, transparent);
+    color: var(--color-text-secondary);
+    font-size: 0.86rem;
+    transition: border-color var(--transition-base), background-color var(--transition-base), color var(--transition-base), transform var(--transition-base), box-shadow var(--transition-base);
+  }
+
+  .hero-social-link:hover {
+    transform: translateY(-1.5px);
+    border-color: color-mix(in srgb, var(--color-accent) 40%, var(--color-border));
+    background: color-mix(in srgb, var(--color-accent) 7%, var(--color-card-bg));
+    color: var(--color-text);
+    box-shadow: var(--shadow-sm);
+  }
+
+  .hero-social-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 1.7rem;
+    height: 1.7rem;
+    border-radius: 999px;
+    background: color-mix(in srgb, var(--color-accent) 10%, transparent);
+    color: var(--color-accent);
+    transition: background-color var(--transition-base), color var(--transition-base), transform var(--transition-base);
+  }
+
+  .hero-social-link:hover .hero-social-icon {
+    background: color-mix(in srgb, var(--color-accent) 15%, transparent);
+    transform: translateY(-0.5px);
+  }
+
+  .hero-note {
+    margin-top: 1.1rem;
+    max-width: 34rem;
+    font-size: 0.92rem;
+    color: var(--color-text-secondary);
+  }
+
+  .hero-photo-panel,
+  .info-card,
+  .project-card,
+  .recognition-card,
+  .home-closing {
+    border: 1px solid var(--color-border);
+    background: color-mix(in srgb, var(--color-card-bg) 98%, transparent);
+    box-shadow: var(--shadow-sm);
+  }
+
+  .hero-photo-panel {
+    padding: 0;
+    border: none;
+    background: transparent;
+    box-shadow: none;
+  }
+
+  .hero-photo-shell {
+    overflow: hidden;
+    border-radius: 24px;
+    border: 1px solid var(--color-border);
+    box-shadow: var(--shadow-sm);
+    background: linear-gradient(180deg, rgba(42, 85, 197, 0.06), transparent 55%);
+  }
+
+  .hero-photo {
+    width: 100%;
+    aspect-ratio: 4 / 5;
+    object-fit: cover;
+    object-position: center top;
+  }
+
+  .hero-now-card {
+    margin-top: 0.95rem;
+    padding: 1rem 1rem 0.65rem;
+    border-radius: 18px;
+    border: 1px solid var(--color-border);
+    background: color-mix(in srgb, var(--color-card-bg) 98%, transparent);
+  }
+
+  .hero-now-title {
+    margin-top: 0.55rem;
+    font-size: 1.32rem;
+    line-height: 1.08;
+  }
+
+  .home-section + .home-section {
+    margin-top: 5.2rem;
+  }
+
+  .section-header {
+    margin-bottom: 1.3rem;
+  }
+
+  .section-title {
+    margin-top: 0.55rem;
+    max-width: 19ch;
+    font-size: clamp(1.58rem, 2.8vw, 2.2rem);
+    line-height: 1.06;
+    letter-spacing: -0.035em;
+  }
+
+  .info-card,
+  .project-card,
+  .recognition-card {
+    padding: 1.18rem;
+    border-radius: 18px;
+  }
+
+  .project-card-link {
+    display: block;
+    color: inherit;
+    transition: transform var(--transition-base), border-color var(--transition-base), box-shadow var(--transition-base), background-color var(--transition-base);
+  }
+
+  .project-card-link:hover {
+    transform: translateY(-2px);
+    border-color: color-mix(in srgb, var(--color-accent) 34%, var(--color-border));
+    background: color-mix(in srgb, var(--color-accent) 4%, var(--color-card-bg));
+    box-shadow: var(--shadow-hover);
+    text-decoration: none;
+  }
+
+  .info-card-title,
+  .project-title,
+  .recognition-title {
+    margin-top: 0.65rem;
+    font-size: 1.22rem;
+    line-height: 1.12;
+    letter-spacing: -0.03em;
+  }
+
+  .project-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.45rem;
+    margin-top: 0.9rem;
+  }
+
+  .project-tags span {
+    padding: 0.22rem 0.65rem;
+    border-radius: 999px;
+    background: color-mix(in srgb, var(--color-border) 85%, transparent);
+    color: var(--color-text-secondary);
+    font-size: 0.76rem;
+  }
+
+  .project-card-footer {
+    margin-top: 1rem;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.9rem;
+  }
+
+  .project-card-action {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    color: var(--color-accent);
+    font-size: 0.88rem;
+    font-weight: 500;
+  }
+
+  .project-card-action span {
+    transition: transform var(--transition-base);
+  }
+
+  .project-card-link:hover .project-card-action span {
+    transform: translate(2px, -2px);
+  }
+
+  .home-closing {
+    margin-top: 1.25rem;
+    padding: 1.15rem 1.25rem;
+    border-radius: 18px;
+  }
+</style>

@@ -1,0 +1,26 @@
+overview: "I'm interested in how large AI systems adapt, fail, and remain reliable, especially in foundation and multimodal settings."
+
+current_project:
+  title: "Catastrophic forgetting in OpenCLIP"
+  organization: "Centre de Visio per Computador (CVC)"
+  summary: "At CVC, my bachelor's thesis studies catastrophic forgetting in OpenCLIP. I'm interested in where forgetting appears, how it changes representations, and which analyses help diagnose it early."
+  thesis_note: ""
+  questions:
+    - "Where does forgetting show up most clearly during continued adaptation?"
+    - "Which changes reflect shallow degradation, and which signal deeper representational drift?"
+  methods:
+    - "Layerwise and representational analysis"
+    - "Tracking forgetting dynamics during adaptation"
+    - "Evaluation in multimodal settings"
+
+interests:
+  - title: "Mechanistic Interpretability"
+    description: "Tools that make model behavior easier to inspect and diagnose."
+  - title: "Foundation and Multimodal Models"
+    description: "Large models whose internal structure matters for downstream behavior and adaptation."
+  - title: "Reliable Machine Learning"
+    description: "Failure modes, uncertainty, and systems that remain dependable in practice."
+
+future_direction: "For graduate study, I'm looking for environments where I can work on foundation models, interpretability, and robust learning with both empirical depth and technical seriousness."
+
+publication_note: "I don't list publications yet because my current research is still in progress."

@@ -1,11 +1,10 @@
 ---
-title: "Efficient Knowledge Transfer"
-description: "Methods for transferring knowledge across tasks and domains with minimal computational overhead."
-category: "Research"
-tags: ["machine-learning", "transfer-learning", "efficiency"]
-image: "/images/projects/efficient-transfer.svg"
-github: "https://github.com/username/efficient-transfer"
+title: "LaIA"
+description: "A language technology project centered on applied NLP and user-facing system design."
+category: "Language Technology"
+tags: ["language technology", "ai systems", "applied ml"]
+github: "https://github.com/pauhidalgoo/LaIA"
 featured: true
-date: 2024-06-15
+order: 2
 ---
-Developing novel approaches to efficient knowledge transfer in neural networks.
+It reflects the part of my work that cares about making language systems useful beyond the model itself.

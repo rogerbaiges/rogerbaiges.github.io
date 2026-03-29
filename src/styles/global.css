@@ -23,6 +23,7 @@
   --shadow-hover: 0 14px 30px rgba(0,0,0,0.12);
   --font-heading: 'Inter', system-ui, -apple-system, sans-serif;
   --font-body: 'Inter', system-ui, -apple-system, sans-serif;
+  --font-mono: 'IBM Plex Mono', 'JetBrains Mono', monospace;
 }
 
 .dark {
@@ -49,14 +50,18 @@ html {
   transition: background-color var(--transition-slow), color var(--transition-slow);
 }
 
-body { min-height: 100vh; line-height: 1.6; -webkit-font-smoothing: antialiased; }
+body { min-height: 100vh; line-height: 1.65; -webkit-font-smoothing: antialiased; }
 
 h1, h2, h3, h4, h5, h6 { font-family: var(--font-heading); }
 
 ::selection { background-color: var(--color-accent); color: white; }
 
 a { color: var(--color-accent); text-decoration: none; transition: color var(--transition-fast); }
-a:hover { color: var(--color-accent-hover); text-decoration: underline; }
+a:hover { color: var(--color-accent-hover); text-decoration: none; }
+
+button {
+  transition: color var(--transition-base), background-color var(--transition-base), border-color var(--transition-base), transform var(--transition-base), box-shadow var(--transition-base);
+}
 
 :focus-visible { outline: 2px solid var(--color-accent); outline-offset: 2px; border-radius: var(--radius-sm); }
 
@@ -164,6 +169,7 @@ a:hover { color: var(--color-accent-hover); text-decoration: underline; }
   gap: 0.5rem;
   padding: 0.625rem 1.25rem;
   border-radius: var(--radius-lg);
+  border: 1px solid transparent;
   background: var(--color-accent);
   color: white;
   font-size: 0.875rem;
@@ -172,14 +178,22 @@ a:hover { color: var(--color-accent-hover); text-decoration: underline; }
 }
 
 .btn-primary:hover {
-  opacity: 0.9;
-  transform: translateY(-1px);
-  box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
+  opacity: 0.96;
+  transform: translateY(-1.5px);
+  box-shadow: 0 8px 18px rgba(37, 99, 235, 0.22);
   color: white;
 }
 
 .dark .btn-primary:hover {
-  box-shadow: 0 4px 12px rgba(96, 165, 250, 0.3);
+  box-shadow: 0 8px 18px rgba(96, 165, 250, 0.24);
+}
+
+.btn-primary:active {
+  transform: translateY(0);
+}
+
+.btn-primary:focus-visible {
+  box-shadow: 0 0 0 4px color-mix(in srgb, var(--color-accent) 16%, transparent);
 }
 
 /* ── Tag/chip pill hover glow ────────────────────────── */
@@ -190,8 +204,8 @@ a:hover { color: var(--color-accent-hover); text-decoration: underline; }
 /* ── Page header with decorative element ─────────────── */
 .page-header {
   position: relative;
-  padding-bottom: 1rem;
-  margin-bottom: 2rem;
+  padding-bottom: 0.9rem;
+  margin-bottom: 2.4rem;
 }
 
 .page-header::after {

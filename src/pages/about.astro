@@ -1,0 +1,121 @@
+---
+import BaseLayout from '@components/layout/BaseLayout.astro';
+import { getConfig } from '@lib/config';
+import { loadCVData, loadProfileContent, loadResearchContent } from '@lib/content';
+import fs from 'node:fs';
+import path from 'node:path';
+
+const config = getConfig();
+if (!config.pages.about) return Astro.redirect('/404');
+
+const profile = loadProfileContent();
+const research = loadResearchContent();
+const cvData = loadCVData();
+
+function escapeHtml(value: string): string {
+  return value
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;');
+}
+
+function renderMarkdown(md: string): string {
+  const blocks = md.trim().split(/\n\s*\n/);
+
+  return blocks.map(block => {
+    const trimmed = block.trim();
+
+    if (trimmed.startsWith('## ')) {
+      return `<h2>${escapeHtml(trimmed.replace(/^##\s+/, ''))}</h2>`;
+    }
+
+    if (trimmed.includes('\n- ') || trimmed.startsWith('- ')) {
+      const items = trimmed
+        .split('\n')
+        .filter(line => line.trim().startsWith('- '))
+        .map(line => `<li>${escapeHtml(line.trim().replace(/^- /, '')).replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')}</li>`)
+        .join('');
+      return `<ul>${items}</ul>`;
+    }
+
+    return `<p>${escapeHtml(trimmed).replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')}</p>`;
+  }).join('');
+}
+
+let aboutHtml = '';
+try {
+  const aboutPath = path.resolve(process.cwd(), 'src/content/about.md');
+  aboutHtml = renderMarkdown(fs.readFileSync(aboutPath, 'utf-8'));
+} catch {}
+---
+
+<BaseLayout title="About" description="How I think about my work, research direction, and long-term goals.">
+  <div class="page-header animate-on-scroll">
+    <h1 class="text-3xl">About</h1>
+    <p class="mt-3 max-w-3xl text-[var(--color-text-secondary)]">
+      This is the short version of how I think about my work, what I care about, and where I'm trying to go next.
+    </p>
+  </div>
+
+  <div class="grid gap-10 lg:grid-cols-[minmax(0,1.25fr)_320px] items-start">
+    <article class="prose max-w-none animate-on-scroll" set:html={aboutHtml} />
+
+    <aside class="space-y-5 animate-on-scroll">
+      <section class="about-panel">
+        <p class="about-label">Quick Snapshot</p>
+        <div class="space-y-4 mt-4">
+          {profile.highlights.slice(0, 4).map(item => (
+            <div>
+              <p class="text-sm text-[var(--color-text-secondary)]">{item.label}</p>
+              <p class="mt-1 font-medium text-[var(--color-text)]">{item.value}</p>
+              <p class="mt-1 text-sm text-[var(--color-text-secondary)]">{item.description}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      <section class="about-panel">
+        <p class="about-label">What I Care About</p>
+        <ul class="mt-4 space-y-4">
+          {research.interests.map(interest => (
+            <li>
+              <p class="font-medium text-[var(--color-text)]">{interest.title}</p>
+              <p class="mt-1 text-sm text-[var(--color-text-secondary)]">{interest.description}</p>
+            </li>
+          ))}
+        </ul>
+      </section>
+
+      <section class="about-panel">
+        <p class="about-label">Where I've Worked</p>
+        <ul class="mt-4 space-y-4">
+          {cvData.experience.map(item => (
+            <li>
+              <p class="font-medium text-[var(--color-text)]">{item.title}</p>
+              <p class="text-sm text-[var(--color-accent)]">{item.organization}</p>
+              <p class="mt-1 text-sm text-[var(--color-text-secondary)]">{item.description}</p>
+            </li>
+          ))}
+        </ul>
+      </section>
+    </aside>
+  </div>
+</BaseLayout>
+
+<style>
+  .about-panel {
+    padding: 1.25rem;
+    border-radius: 18px;
+    border: 1px solid var(--color-border);
+    background: color-mix(in srgb, var(--color-card-bg) 98%, transparent);
+  }
+
+  .about-label {
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--color-text-secondary);
+  }
+</style>

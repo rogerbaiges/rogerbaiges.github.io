@@ -1,0 +1,179 @@
+---
+import BaseLayout from '@components/layout/BaseLayout.astro';
+import { getConfig } from '@lib/config';
+import { loadProfileContent, loadResearchContent } from '@lib/content';
+import SocialIcon from '@components/ui/SocialIcon.astro';
+
+const config = getConfig();
+if (!config.pages.contact) return Astro.redirect('/404');
+
+const profile = loadProfileContent();
+const research = loadResearchContent();
+const cvDownloadPath = '/files/RogerBaigesCV.pdf';
+
+function isExternalLink(href: string): boolean {
+  return href.startsWith('http');
+}
+---
+
+<BaseLayout title="Contact" description="How to get in touch with me about research, graduate study, or AI projects.">
+  <div class="page-header animate-on-scroll">
+    <h1 class="text-3xl">Contact</h1>
+    <p class="mt-3 max-w-3xl text-[var(--color-text-secondary)]">
+      If you'd like to talk about research, graduate opportunities, or a technically ambitious AI project, feel free to reach out.
+    </p>
+  </div>
+
+  <div class="grid gap-8 lg:grid-cols-[minmax(0,1.1fr)_0.9fr]">
+    <section class="contact-panel animate-on-scroll">
+      <p class="contact-kicker">Current Interests</p>
+      <h2 class="contact-heading">Graduate study aligned with interpretability, foundation models, and reliable machine learning.</h2>
+      <p class="mt-5 text-[var(--color-text-secondary)]">{profile.contact.intro}</p>
+      <p class="mt-4 text-[var(--color-text-secondary)]">{research.future_direction}</p>
+
+      <div class="contact-actions">
+        <a href={cvDownloadPath} class="btn-primary" download="RogerBaigesCV.pdf">
+          <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true">
+            <path d="M12 3v11m0 0 4-4m-4 4-4-4M5 19h14" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" />
+          </svg>
+          Download CV
+        </a>
+      </div>
+
+      <div class="mt-8 border-t border-[var(--color-border)] pt-5">
+        <p class="contact-kicker">Location</p>
+        <p class="mt-2 text-[var(--color-text)]">{profile.contact.location}</p>
+      </div>
+    </section>
+
+    <aside class="contact-links-grid animate-on-scroll">
+      {profile.contact.links.map(link => (
+        <a
+          href={link.href}
+          target={isExternalLink(link.href) ? '_blank' : undefined}
+          rel={isExternalLink(link.href) ? 'noopener noreferrer' : undefined}
+          class="contact-link-row"
+          aria-label={`${link.label}: ${link.value}`}
+        >
+          <span class="contact-link-head">
+            <span class="contact-link-mark" aria-hidden="true">
+              <SocialIcon kind={link.label} class="h-4 w-4" />
+            </span>
+            <span>
+              <span class="contact-kicker">{link.label}</span>
+              <span class="contact-link-text">{link.value}</span>
+            </span>
+          </span>
+          <span class="contact-link-arrow" aria-hidden="true">↗</span>
+        </a>
+      ))}
+    </aside>
+  </div>
+</BaseLayout>
+
+<style>
+  .contact-panel,
+  .contact-link-row {
+    border: 1px solid var(--color-border);
+    background: color-mix(in srgb, var(--color-card-bg) 98%, transparent);
+    border-radius: 18px;
+  }
+
+  .contact-panel {
+    padding: 1.45rem;
+  }
+
+  .contact-actions {
+    margin-top: 1.5rem;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+  }
+
+  .contact-kicker {
+    display: block;
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--color-text-secondary);
+  }
+
+  .contact-heading {
+    margin-top: 0.8rem;
+    max-width: 14ch;
+    font-size: clamp(1.8rem, 3.6vw, 2.6rem);
+    line-height: 1.07;
+  }
+
+  .contact-link-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.9rem;
+    padding: 1rem 1.05rem;
+    transition: border-color var(--transition-base), transform var(--transition-base), box-shadow var(--transition-base), background-color var(--transition-base);
+  }
+
+  .contact-link-row:hover {
+    border-color: color-mix(in srgb, var(--color-accent) 36%, var(--color-border));
+    background: color-mix(in srgb, var(--color-accent) 6%, var(--color-card-bg));
+    box-shadow: var(--shadow-md);
+    transform: translateY(-1.5px);
+    text-decoration: none;
+  }
+
+  .contact-link-head {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    min-width: 0;
+  }
+
+  .contact-link-mark {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 2rem;
+    height: 2rem;
+    border-radius: 999px;
+    background: color-mix(in srgb, var(--color-accent) 10%, transparent);
+    color: var(--color-accent);
+    flex-shrink: 0;
+    transition: background-color var(--transition-base), transform var(--transition-base);
+  }
+
+  .contact-link-row:hover .contact-link-mark {
+    background: color-mix(in srgb, var(--color-accent) 15%, transparent);
+    transform: translateY(-0.5px);
+  }
+
+  .contact-link-text {
+    display: block;
+    margin-top: 0.32rem;
+    color: var(--color-text);
+    word-break: break-word;
+  }
+
+  .contact-link-arrow {
+    color: var(--color-text-secondary);
+    flex-shrink: 0;
+    transition: transform var(--transition-base), color var(--transition-base);
+  }
+
+  .contact-link-row:hover .contact-link-arrow {
+    color: var(--color-accent);
+    transform: translate(2px, -2px);
+  }
+
+  .contact-links-grid {
+    display: grid;
+    gap: 0.9rem;
+  }
+
+  @media (min-width: 720px) and (max-width: 1023px) {
+    .contact-links-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+</style>

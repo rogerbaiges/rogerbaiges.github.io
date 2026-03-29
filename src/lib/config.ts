@@ -7,7 +7,7 @@ export interface SiteConfig {
   profile: { name: string; position: string; affiliation: string; university: string; email: string; avatar: string; bio: string; bio_short: string };
   social: Record<string, string>;
   pages: Record<string, boolean>;
-  theme: { cursor_spotlight: boolean; style: string; palette: string; random_theme: boolean; avatars: string[]; };
+  theme: { cursor_spotlight: boolean; style: string; palette: string; random_theme: boolean; avatars: string[] };
   cv?: { hide_pdf_download?: boolean };
   publications: { author_name: string; bibtex_file: string; group_by_year: boolean; show_badges: boolean };
   analytics?: { google_analytics?: string };
@@ -27,14 +27,17 @@ export function getConfig(): SiteConfig {
 export function getEnabledPages(): { name: string; path: string; label: string }[] {
   const config = getConfig();
   const pageMap: Record<string, { path: string; label: string }> = {
-    about: { path: '/', label: 'About' },
-    publications: { path: '/publications', label: 'Publications' },
-    cv: { path: '/cv', label: 'CV' },
+    home: { path: '/', label: 'Home' },
+    about: { path: '/about', label: 'About' },
+    research: { path: '/research', label: 'Research' },
     projects: { path: '/projects', label: 'Projects' },
+    awards: { path: '/awards', label: 'Awards' },
+    cv: { path: '/cv', label: 'CV' },
+    contact: { path: '/contact', label: 'Contact' },
     news: { path: '/news', label: 'News' },
+    publications: { path: '/publications', label: 'Publications' },
     teaching: { path: '/teaching', label: 'Teaching' },
     talks: { path: '/talks', label: 'Talks' },
-    awards: { path: '/awards', label: 'Awards' },
     team: { path: '/team', label: 'Team' },
     positions: { path: '/positions', label: 'Positions' },
     collaborators: { path: '/collaborators', label: 'Collaborators' },
@@ -46,8 +49,9 @@ export function getEnabledPages(): { name: string; path: string; label: string }
     media: { path: '/media', label: 'Media' },
     travel: { path: '/travel', label: 'Travel' },
   };
+
   return Object.entries(config.pages)
-    .filter(([_, enabled]) => enabled)
+    .filter(([name, enabled]) => enabled && name !== 'about')
     .map(([name]) => ({ name, ...pageMap[name] }))
     .filter(page => page.path);
 }

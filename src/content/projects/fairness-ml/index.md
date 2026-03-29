@@ -1,10 +1,10 @@
 ---
-title: "Fairness-Aware ML Toolkit"
-description: "Open-source toolkit for building fair and accountable ML systems."
-category: "Software"
-tags: ["fairness", "machine-learning", "open-source"]
-github: "https://github.com/username/fairness-ml"
-featured: true
-date: 2023-03-10
+title: "IpurdIAr"
+description: "An applied AI prototype built around a concrete workflow and clear end-user value."
+category: "Applied AI Prototype"
+tags: ["ai product", "experimentation", "workflow design"]
+github: "https://github.com/FLOOREES/IpurdIArs-more-than-a-hack"
+featured: false
+order: 3
 ---
-A comprehensive toolkit for auditing and improving fairness in ML pipelines.
+This project let me combine technical experimentation with a more grounded workflow perspective.

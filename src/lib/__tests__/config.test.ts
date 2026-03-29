@@ -25,14 +25,17 @@ profile:
   bio_short: Test
 social: {}
 pages:
+  home: true
   about: true
-  publications: true
-  cv: false
+  research: true
   projects: false
+  awards: false
+  cv: false
+  contact: true
   news: false
+  publications: false
   teaching: false
   talks: false
-  awards: false
   team: false
   positions: false
   collaborators: false
@@ -45,7 +48,7 @@ pages:
   travel: false
 theme:
   cursor_spotlight: false
-  style: modern
+  style: research
   palette: default
   random_theme: false
   avatars: []
@@ -53,7 +56,7 @@ publications:
   author_name: Test
   bibtex_file: papers.bib
   group_by_year: true
-  show_badges: true
+  show_badges: false
 blog:
   posts_per_page: 10
   show_reading_time: true
@@ -70,10 +73,13 @@ blog:
 
     const { getEnabledPages } = await import('../config');
     const pages = getEnabledPages();
-    const names = pages.map(p => p.name);
-    expect(names).toContain('about');
-    expect(names).toContain('publications');
-    expect(names).not.toContain('cv');
+    const names = pages.map(page => page.name);
+
+    expect(names).toContain('home');
+    expect(names).not.toContain('about');
+    expect(names).toContain('research');
+    expect(names).toContain('contact');
+    expect(names).not.toContain('projects');
     expect(names).not.toContain('blog');
   });
 });

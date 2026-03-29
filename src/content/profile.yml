@@ -1,0 +1,37 @@
+hero:
+  eyebrow: "AI student at Universitat Politècnica de Catalunya (UPC)"
+  statement: "I work across foundation models, reliable machine learning, and research-driven AI systems."
+  summary: "My profile combines strong fundamentals at UPC, current thesis research at CVC, and prior applied AI work at Serimag."
+  note: "I'm building toward graduate study through careful research, strong fundamentals, and work at the boundary between research and systems."
+  metrics:
+    - "GPA 9.10/10"
+    - "Research at CVC"
+    - "AI systems at Serimag"
+
+highlights:
+  - label: "Research"
+    value: "CVC thesis"
+    description: "I'm studying catastrophic forgetting in OpenCLIP as part of my bachelor's thesis."
+  - label: "Systems"
+    value: "Serimag internship"
+    description: "I worked on vision-language and document extraction systems where reliability and calibrated confidence mattered."
+  - label: "Trajectory"
+    value: "UPC · KU Leuven · competitions"
+    description: "I care about fundamentals, initiative, and building comfortably across both research and systems."
+
+contact:
+  intro: "I'm always happy to talk about research, graduate study, or ambitious AI projects with a real technical core."
+  location: "Barcelona, Spain"
+  links:
+    - label: "Email"
+      value: "rogerbaigestrilla@gmail.com"
+      href: "mailto:rogerbaigestrilla@gmail.com"
+    - label: "LinkedIn"
+      value: "rogerbaigestrilla"
+      href: "https://www.linkedin.com/in/rogerbaigestrilla/"
+    - label: "GitHub"
+      value: "github.com/rogerbaiges"
+      href: "https://github.com/rogerbaiges"
+    - label: "Hugging Face"
+      value: "huggingface.co/baiges"
+      href: "https://huggingface.co/baiges"

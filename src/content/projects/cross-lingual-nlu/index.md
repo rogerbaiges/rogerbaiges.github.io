@@ -1,10 +1,10 @@
 ---
-title: "Cross-Lingual NLU"
-description: "Building NLU systems that generalize across languages with minimal supervision."
-category: "Research"
-tags: ["nlp", "multilingual", "low-resource"]
-github: "https://github.com/username/cross-lingual-nlu"
-featured: false
-date: 2022-09-01
+title: "CatGPT"
+description: "An LLM prototype I used to explore conversational UX, prompting, and system behavior."
+category: "Applied LLM Systems"
+tags: ["llm systems", "conversational ai", "prototyping"]
+github: "https://github.com/rogerbaiges/CatGPT"
+featured: true
+order: 1
 ---
-Research on cross-lingual natural language understanding.
+I built it as a practical way to learn how model capability translates into a usable system.

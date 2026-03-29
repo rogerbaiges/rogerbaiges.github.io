@@ -1,126 +1,182 @@
 ---
 import BaseLayout from '@components/layout/BaseLayout.astro';
-import Card from '@components/ui/Card.astro';
 import { getConfig } from '@lib/config';
-import fs from 'node:fs';
-import path from 'node:path';
+import { loadProjects } from '@lib/content';
 
 const config = getConfig();
 if (!config.pages.projects) return Astro.redirect('/404');
 
-const projectsDir = path.resolve(process.cwd(), 'src/content/projects');
-let projects: any[] = [];
+const projects = loadProjects();
 
-try {
-  const dirs = fs.readdirSync(projectsDir).filter(d =>
-    fs.statSync(path.join(projectsDir, d)).isDirectory()
-  );
-
-  for (const dir of dirs) {
-    const indexPath = path.join(projectsDir, dir, 'index.md');
-    if (!fs.existsSync(indexPath)) continue;
-    const raw = fs.readFileSync(indexPath, 'utf-8');
-    const fmMatch = raw.match(/^---\n([\s\S]*?)\n---\n([\s\S]*)$/);
-    if (!fmMatch) continue;
-
-    const fm = fmMatch[1];
-    const content = fmMatch[2].trim();
-    const get = (key: string) => fm.match(new RegExp(`${key}:\\s*"?(.+?)"?\\s*$`, 'm'))?.[1] || '';
-    const getTags = () => {
-      const match = fm.match(/tags:\s*\[([^\]]*)\]/);
-      return match ? match[1].split(',').map(t => t.trim().replace(/"/g, '')) : [];
-    };
-
-    projects.push({
-      title: get('title'),
-      description: get('description'),
-      category: get('category'),
-      tags: getTags(),
-      image: get('image'),
-      github: get('github'),
-      url: get('url'),
-      featured: fm.includes('featured: true'),
-      date: new Date(get('date')),
-      content,
-    });
-  }
-} catch {}
-
-projects.sort((a, b) => b.date.getTime() - a.date.getTime());
-const categories = ['All', ...new Set(projects.map(p => p.category).filter(Boolean))];
+function isExternalLink(href?: string): boolean {
+  return Boolean(href && href.startsWith('http'));
+}
 ---
 
-<BaseLayout title="Projects" description="Research projects and software">
-  <div class="animate-on-scroll">
-    <div class="page-header">
-      <h1 class="text-3xl font-bold">Projects</h1>
-      <p class="text-[var(--color-text-secondary)] mt-2">{projects.length} projects</p>
-    </div>
-
-    <!-- Category filter -->
-    <div class="flex flex-wrap gap-2 mb-8" id="project-filters">
-      {categories.map((cat, i) => (
-        <button
-          data-category={cat}
-          aria-pressed={i === 0 ? 'true' : 'false'}
-          class:list={[
-            'px-3 py-1.5 rounded-full text-xs font-medium transition-colors',
-            i === 0
-              ? 'bg-[var(--color-accent)] text-white'
-              : 'bg-[var(--color-border)]/50 text-[var(--color-text-secondary)] hover:bg-[var(--color-accent)]/10 hover:text-[var(--color-accent)]'
-          ]}
-        >
-          {cat}
-        </button>
-      ))}
-    </div>
+<BaseLayout title="Projects" description="A selective set of projects that represent the applied side of my work.">
+  <div class="page-header animate-on-scroll">
+    <h1 class="text-3xl">Projects</h1>
+    <p class="mt-3 max-w-3xl text-[var(--color-text-secondary)]">
+      A selective set of projects that show how I learn by building, prototyping, and iterating on concrete systems.
+    </p>
   </div>
 
-  <!-- Projects grid (bento style) -->
-  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4" id="projects-grid">
+  <div class="space-y-6">
     {projects.map(project => (
-      <div
-        data-project-card
-        data-category={project.category}
-        class:list={[
-          'animate-on-scroll',
-          project.featured && 'md:col-span-2'
-        ]}
-      >
-        <Card
-          title={project.title}
-          description={project.description}
-          tags={project.tags}
-          image={project.image}
-          href={project.url || project.github}
-        />
-      </div>
+      <article class="project-entry animate-on-scroll">
+        <div class="project-meta">
+          <p class="project-category">{project.category}</p>
+          {project.tags.length > 0 && (
+            <div class="project-tags">
+              {project.tags.slice(0, 3).map(tag => (
+                <span>{tag}</span>
+              ))}
+            </div>
+          )}
+        </div>
+
+        <div class="project-body">
+          <div class="flex flex-col gap-3 md:flex-row md:items-start md:justify-between">
+            <div>
+              <h2 class="project-title">{project.title}</h2>
+              <p class="project-description">{project.description}</p>
+            </div>
+
+            <div class="project-actions">
+              {project.github && (
+                <a
+                  href={project.github}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="project-link"
+                >
+                  GitHub
+                  <span aria-hidden="true">↗</span>
+                </a>
+              )}
+
+              {project.url && project.url !== project.github && (
+                <a
+                  href={project.url}
+                  target={isExternalLink(project.url) ? '_blank' : undefined}
+                  rel={isExternalLink(project.url) ? 'noopener noreferrer' : undefined}
+                  class="project-link project-link-subtle"
+                >
+                  Project
+                  <span aria-hidden="true">↗</span>
+                </a>
+              )}
+            </div>
+          </div>
+
+          <p class="project-detail">{project.content}</p>
+        </div>
+      </article>
     ))}
   </div>
-
-  <script>
-    document.addEventListener('astro:page-load', () => {
-      const buttons = document.querySelectorAll('#project-filters button');
-      const cards = document.querySelectorAll('[data-project-card]');
-
-      buttons.forEach(btn => {
-        btn.addEventListener('click', () => {
-          buttons.forEach(b => {
-            b.classList.remove('bg-[var(--color-accent)]', 'text-white');
-            b.classList.add('bg-[var(--color-border)]/50', 'text-[var(--color-text-secondary)]');
-            b.setAttribute('aria-pressed', 'false');
-          });
-          btn.classList.add('bg-[var(--color-accent)]', 'text-white');
-          btn.classList.remove('bg-[var(--color-border)]/50', 'text-[var(--color-text-secondary)]');
-          btn.setAttribute('aria-pressed', 'true');
-
-          const category = (btn as HTMLElement).dataset.category;
-          cards.forEach(card => {
-            const el = card as HTMLElement;
-            el.style.display = (category === 'All' || el.dataset.category === category) ? '' : 'none';
-          });
-        });
-      });
-    });
-  </script>
 </BaseLayout>
+
+<style>
+  .project-entry {
+    display: grid;
+    gap: 1.35rem;
+    padding: 1.25rem;
+    border-radius: 18px;
+    border: 1px solid var(--color-border);
+    background: color-mix(in srgb, var(--color-card-bg) 98%, transparent);
+    transition: transform var(--transition-base), border-color var(--transition-base), box-shadow var(--transition-base);
+  }
+
+  .project-entry:hover {
+    transform: translateY(-2px);
+    border-color: color-mix(in srgb, var(--color-accent) 32%, var(--color-border));
+    background: color-mix(in srgb, var(--color-accent) 4%, var(--color-card-bg));
+    box-shadow: var(--shadow-hover);
+  }
+
+  .project-category {
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--color-text-secondary);
+  }
+
+  .project-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-top: 1rem;
+  }
+
+  .project-tags span {
+    padding: 0.2rem 0.65rem;
+    border-radius: 999px;
+    font-size: 0.76rem;
+    background: color-mix(in srgb, var(--color-border) 84%, transparent);
+    color: var(--color-text-secondary);
+  }
+
+  .project-title {
+    font-size: 1.8rem;
+    line-height: 1.08;
+  }
+
+  .project-description {
+    margin-top: 0.5rem;
+    color: var(--color-accent);
+  }
+
+  .project-detail {
+    margin-top: 1rem;
+    max-width: 50rem;
+    color: var(--color-text-secondary);
+  }
+
+  .project-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.65rem;
+  }
+
+  .project-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    padding: 0.65rem 1rem;
+    border: 1px solid var(--color-border);
+    border-radius: 999px;
+    white-space: nowrap;
+    color: var(--color-text);
+    background: color-mix(in srgb, var(--color-card-bg) 94%, transparent);
+    transition: border-color var(--transition-base), background-color var(--transition-base), color var(--transition-base), transform var(--transition-base);
+  }
+
+  .project-link:hover {
+    border-color: var(--color-accent);
+    color: var(--color-accent);
+    background: color-mix(in srgb, var(--color-accent) 6%, var(--color-card-bg));
+    box-shadow: var(--shadow-sm);
+    transform: translateY(-1px);
+    text-decoration: none;
+  }
+
+  .project-link span {
+    transition: transform var(--transition-base);
+  }
+
+  .project-link:hover span {
+    transform: translate(2px, -2px);
+  }
+
+  .project-link-subtle {
+    color: var(--color-text-secondary);
+  }
+
+  @media (min-width: 960px) {
+    .project-entry {
+      grid-template-columns: 220px minmax(0, 1fr);
+      align-items: start;
+    }
+  }
+</style>
