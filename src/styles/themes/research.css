@@ -26,15 +26,15 @@
 }
 
 [data-theme="research"].dark {
-  --color-bg: #121924;
+  --color-bg: #101824;
   --color-text: #edf2f8;
   --color-text-secondary: #a2aec0;
   --color-accent: #92afff;
   --color-accent-hover: #bfd0ff;
-  --color-border: #293547;
-  --color-card-bg: #171f2c;
-  --color-glass: rgba(18, 25, 36, 0.82);
-  --color-glass-border: rgba(41, 53, 71, 0.92);
+  --color-border: #2b384a;
+  --color-card-bg: #16202e;
+  --color-glass: rgba(16, 24, 36, 0.84);
+  --color-glass-border: rgba(43, 56, 74, 0.92);
   --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.16);
   --shadow-md: 0 10px 26px rgba(0, 0, 0, 0.2);
   --shadow-lg: 0 16px 38px rgba(0, 0, 0, 0.24);
@@ -55,8 +55,10 @@
 
 [data-theme="research"].dark body {
   background-image:
-    radial-gradient(circle at top left, rgba(141, 173, 255, 0.08), transparent 26%),
-    radial-gradient(circle at bottom right, rgba(255, 255, 255, 0.03), transparent 28%);
+    radial-gradient(circle at 14% 10%, rgba(146, 175, 255, 0.11), transparent 30%),
+    radial-gradient(circle at 84% 18%, rgba(76, 107, 197, 0.1), transparent 26%),
+    radial-gradient(circle at 50% 115%, rgba(255, 255, 255, 0.04), transparent 34%),
+    linear-gradient(180deg, #111a27 0%, #0f1722 52%, #0c121b 100%);
 }
 
 [data-theme="research"] .glass {

@@ -13,13 +13,13 @@
       "sizes": "192x192"
     },
     {
-      "src": "/android-chrome-384x384.png",
+      "src": "/android-chrome-512x512.png",
       "type": "image/png",
-      "sizes": "384x384"
+      "sizes": "512x512"
     }
   ],
   "start_url": ".",
   "display": "standalone",
-  "theme_color": "#2456d3",
-  "background_color": "#f6f8fb"
+  "theme_color": "#0f172a",
+  "background_color": "#f7f9fc"
 }
