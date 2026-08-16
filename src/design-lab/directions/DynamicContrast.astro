@@ -1,0 +1,238 @@
+---
+import DesignLabLayout from '../DesignLabLayout.astro';
+import TechnicalDiagram from '../TechnicalDiagram.astro';
+import { labContent } from '../data';
+import '../styles/dynamic-contrast.css';
+
+const experienceWork = labContent.work.slice(0, 2);
+const independentWork = labContent.work.slice(2);
+const educationJourney = [labContent.education[1], labContent.education[2], labContent.education[0]];
+---
+
+<DesignLabLayout bodyClass="dc-body">
+  <div class="dc-site">
+    <header class="dc-header">
+      <a class="dc-header__name" href="#top">{labContent.name}</a>
+      <nav class="dc-nav" aria-label="Primary navigation">
+        {labContent.nav.map((item) => (
+          <a href={item.href} data-dl-nav>{item.label}</a>
+        ))}
+      </nav>
+      <a class="dc-header__contact" href="#contact">Contact <span aria-hidden="true">↘</span></a>
+    </header>
+
+    <main id="main-content">
+      <section class="dc-hero" id="top" aria-labelledby="dc-hero-title">
+        <div class="dc-hero__grid">
+          <div class="dc-hero__copy">
+            <p class="dc-kicker dc-hero__eyebrow">{labContent.hero.eyebrow}</p>
+            <h1 id="dc-hero-title">{labContent.hero.headline}</h1>
+            <p class="dc-hero__paragraph">{labContent.hero.paragraph}</p>
+
+            <div class="dc-hero__signals" aria-label="Selected results">
+              {[labContent.hero.researchSignal, labContent.hero.industrySignal].map((signal) => (
+                <div class="dc-signal">
+                  <span>{signal.label}</span>
+                  <strong>{signal.value}</strong>
+                  <small>{signal.detail}</small>
+                </div>
+              ))}
+            </div>
+
+            <div class="dc-hero__proof" aria-label="Profile highlights">
+              {labContent.proof.map((item) => (
+                <div class="dc-proof-item">
+                  <strong>{item.label}</strong>
+                  <small>{item.detail}</small>
+                </div>
+              ))}
+            </div>
+
+            <div class="dc-hero__actions">
+              <a class="dc-button dc-button--light" href="#work">
+                {labContent.hero.primaryCta}<span aria-hidden="true">↓</span>
+              </a>
+              <a class="dc-text-link dc-text-link--light" href={labContent.hero.cvHref} download="RogerBaigesCV.pdf">
+                {labContent.hero.secondaryCta}<span aria-hidden="true">↘</span>
+              </a>
+            </div>
+          </div>
+
+          <figure class="dc-portrait">
+            <img
+              src="/images/profile.jpg"
+              alt="Portrait of Roger Baiges Trilla"
+              width="944"
+              height="1417"
+            />
+            <figcaption>
+              <span>Barcelona</span>
+              <span>Research + engineering</span>
+            </figcaption>
+          </figure>
+        </div>
+        <div class="dc-hero__index" aria-hidden="true">
+          <span>Research</span><span>Engineering</span><span>Systems</span>
+        </div>
+      </section>
+
+      <section class="dc-work" id="work" data-dl-section aria-labelledby="dc-work-title">
+        <div class="dc-work__intro" data-dl-reveal>
+          <p class="dc-kicker">Selected work · 2024–2026</p>
+          <h2 id="dc-work-title">Research that improves models. Engineering that makes them useful.</h2>
+          <p>Five pieces of work, ordered as one argument: understand the failure, build under constraints, then push ambitious systems from idea to execution.</p>
+        </div>
+
+        <div class="dc-experience" id="experience" data-dl-section>
+          <article class="dc-lead-work dc-lead-work--research" data-dl-work-row data-dl-reveal>
+            <div class="dc-lead-work__meta">
+              <span>{experienceWork[0].number}</span>
+              <p>{experienceWork[0].context}</p>
+            </div>
+            <div class="dc-lead-work__copy">
+              <p class="dc-lead-work__verb">Improve</p>
+              <h3>{experienceWork[0].title}</h3>
+              <p class="dc-lead-work__statement">{experienceWork[0].statement}</p>
+              <p>{experienceWork[0].ownership}</p>
+              <strong>{experienceWork[0].result}</strong>
+              <ul>
+                {experienceWork[0].details.map((detail) => <li>{detail}</li>)}
+              </ul>
+            </div>
+            <div class="dc-lead-work__visual">
+              {experienceWork[0].diagram && (
+                <TechnicalDiagram
+                  kind={experienceWork[0].diagram}
+                  caption="Compatibility is recovered after adaptation through an internal activation-space repair."
+                />
+              )}
+            </div>
+          </article>
+
+          <article class="dc-lead-work dc-lead-work--industry" data-dl-work-row data-dl-reveal>
+            <div class="dc-lead-work__meta">
+              <span>{experienceWork[1].number}</span>
+              <p>{experienceWork[1].context}</p>
+            </div>
+            <div class="dc-lead-work__copy">
+              <p class="dc-lead-work__verb">Engineer</p>
+              <h3>{experienceWork[1].title}</h3>
+              <p class="dc-lead-work__statement">{experienceWork[1].statement}</p>
+              <p>{experienceWork[1].ownership}</p>
+              <strong>{experienceWork[1].result}</strong>
+              <ul>
+                {experienceWork[1].details.map((detail) => <li>{detail}</li>)}
+              </ul>
+            </div>
+            <div class="dc-serimag-flow" aria-label="Serimag system flow">
+              <span>Hardest document type</span>
+              <i aria-hidden="true">→</i>
+              <span>On-premises VLM</span>
+              <i aria-hidden="true">→</i>
+              <span>Field evaluation</span>
+              <i aria-hidden="true">→</i>
+              <span>Automation at threshold</span>
+            </div>
+          </article>
+        </div>
+
+        <div class="dc-projects" aria-label="Independent and award-winning projects">
+          <div class="dc-projects__heading" data-dl-reveal>
+            <p class="dc-kicker">Independent systems</p>
+            <p>Build from first principles</p>
+          </div>
+          {independentWork.map((item) => (
+            <a
+              class="dc-project-row"
+              href={item.href}
+              target="_blank"
+              rel="noopener noreferrer"
+              data-dl-work-row
+              data-dl-reveal
+              aria-label={`${item.linkLabel}: ${item.title}`}
+            >
+              <div class="dc-project-row__number">{item.number}</div>
+              <div class="dc-project-row__copy">
+                <p>{item.context}</p>
+                <h3>{item.title}</h3>
+                <p class="dc-project-row__statement">{item.statement}</p>
+                <p>{item.ownership}</p>
+                <strong>{item.result}</strong>
+              </div>
+              <div class="dc-project-row__diagram">
+                {item.diagram && <TechnicalDiagram kind={item.diagram} caption={item.details.join(' · ')} />}
+              </div>
+              <span class="dc-project-row__action">{item.linkLabel}<span aria-hidden="true">↗</span></span>
+            </a>
+          ))}
+        </div>
+      </section>
+
+      <section class="dc-education" id="education" data-dl-section aria-labelledby="dc-education-title">
+        <div class="dc-section-heading" data-dl-reveal>
+          <p class="dc-kicker">Education</p>
+          <h2 id="dc-education-title">A strong foundation, now moving toward EPFL.</h2>
+        </div>
+        <ol class="dc-journey">
+          {educationJourney.map((item, index) => (
+            <li data-dl-reveal class:list={{ 'dc-journey__next': index === educationJourney.length - 1 }}>
+              <div class="dc-journey__marker"><span>{String(index + 1).padStart(2, '0')}</span></div>
+              <p>{item.period}</p>
+              <h3>{item.institution}</h3>
+              <strong>{item.degree}</strong>
+              <span>{item.detail}</span>
+            </li>
+          ))}
+        </ol>
+      </section>
+
+      <section class="dc-recognition" aria-labelledby="dc-recognition-title">
+        <div class="dc-recognition__heading" data-dl-reveal>
+          <p class="dc-kicker">Recognition</p>
+          <h2 id="dc-recognition-title">Evidence beyond the work itself.</h2>
+        </div>
+        <div class="dc-recognition__items">
+          {labContent.recognition.map((item, index) => (
+            <article data-dl-reveal>
+              <span>{String(index + 1).padStart(2, '0')}</span>
+              <h3>{item.title}</h3>
+              <p>{item.detail}</p>
+            </article>
+          ))}
+        </div>
+      </section>
+
+      <section class="dc-about" id="about" data-dl-section aria-labelledby="dc-about-title">
+        <p class="dc-kicker">{labContent.about.eyebrow}</p>
+        <div class="dc-about__content" data-dl-reveal>
+          <h2 id="dc-about-title">{labContent.about.headline}</h2>
+          <div>
+            <p>{labContent.about.paragraph}</p>
+            <p class="dc-about__note">{labContent.about.note}</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="dc-contact" id="contact" aria-labelledby="dc-contact-title">
+        <div data-dl-reveal>
+          <p class="dc-kicker">{labContent.contact.eyebrow}</p>
+          <h2 id="dc-contact-title">{labContent.contact.headline}</h2>
+          <p>{labContent.contact.paragraph}</p>
+          <a class="dc-contact__email" href={labContent.contact.emailHref}>
+            {labContent.contact.email}<span aria-hidden="true">↗</span>
+          </a>
+        </div>
+        <nav class="dc-contact__links" aria-label="Social links">
+          {labContent.contact.links.map((link) => (
+            <a href={link.href} target="_blank" rel="noopener noreferrer">{link.label}<span aria-hidden="true">↗</span></a>
+          ))}
+        </nav>
+      </section>
+    </main>
+
+    <footer class="dc-footer">
+      <span>© 2026 Roger Baiges Trilla. All rights reserved.</span>
+      <a href="#top">Back to top <span aria-hidden="true">↑</span></a>
+    </footer>
+  </div>
+</DesignLabLayout>

@@ -1,0 +1,83 @@
+---
+import './styles/base.css';
+
+interface Props {
+  title?: string;
+  description?: string;
+  bodyClass?: string;
+}
+
+const {
+  title = 'Roger Baiges Trilla — AI Researcher & Engineer',
+  description = 'Roger Baiges Trilla builds and improves advanced AI systems across research and real-world engineering.',
+  bodyClass = '',
+} = Astro.props;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content={description} />
+    <meta name="author" content="Roger Baiges Trilla" />
+    <meta name="robots" content="noindex, nofollow" />
+    <meta name="theme-color" content="#07111e" />
+    <title>{title}</title>
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="preload" href="/images/profile.jpg" as="image" />
+    <script is:inline>document.documentElement.classList.add('dl-js');</script>
+    <slot name="head" />
+  </head>
+  <body class:list={['dl-body', bodyClass]}>
+    <a class="dl-skip-link" href="#main-content">Skip to content</a>
+    <slot />
+
+    <script is:inline>
+      (function () {
+        function initDesignLab() {
+          var reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+          var revealItems = Array.prototype.slice.call(document.querySelectorAll('[data-dl-reveal]'));
+
+          if (reducedMotion || !('IntersectionObserver' in window)) {
+            revealItems.forEach(function (item) { item.classList.add('dl-is-visible'); });
+          } else {
+            var revealObserver = new IntersectionObserver(function (entries, observer) {
+              entries.forEach(function (entry) {
+                if (!entry.isIntersecting) return;
+                entry.target.classList.add('dl-is-visible');
+                observer.unobserve(entry.target);
+              });
+            }, { rootMargin: '0px 0px -10% 0px', threshold: 0.08 });
+            revealItems.forEach(function (item) { revealObserver.observe(item); });
+          }
+
+          var navLinks = Array.prototype.slice.call(document.querySelectorAll('[data-dl-nav]'));
+          var sections = Array.prototype.slice.call(document.querySelectorAll('[data-dl-section]'));
+          if (!navLinks.length || !sections.length || !('IntersectionObserver' in window)) return;
+
+          var activeObserver = new IntersectionObserver(function (entries) {
+            var visible = entries
+              .filter(function (entry) { return entry.isIntersecting; })
+              .sort(function (a, b) { return b.intersectionRatio - a.intersectionRatio; });
+            if (!visible.length) return;
+            var activeId = visible[0].target.id;
+            navLinks.forEach(function (link) {
+              var isActive = link.getAttribute('href') === '#' + activeId;
+              link.classList.toggle('dl-nav-is-active', isActive);
+              if (isActive) link.setAttribute('aria-current', 'location');
+              else link.removeAttribute('aria-current');
+            });
+          }, { rootMargin: '-18% 0px -62% 0px', threshold: [0, 0.12, 0.4] });
+          sections.forEach(function (section) { activeObserver.observe(section); });
+        }
+
+        if (document.readyState === 'loading') {
+          document.addEventListener('DOMContentLoaded', initDesignLab, { once: true });
+        } else {
+          initDesignLab();
+        }
+      })();
+    </script>
+  </body>
+</html>

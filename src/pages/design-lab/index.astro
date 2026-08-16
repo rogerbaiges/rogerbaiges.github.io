@@ -1,0 +1,260 @@
+---
+import DesignLabLayout from '@/design-lab/DesignLabLayout.astro';
+
+const directions = [
+  {
+    number: '01',
+    name: 'Editorial Signal',
+    href: '/design-lab/editorial-signal/',
+    premise: 'A warm, precise editorial system where evidence reads like a well-directed technical feature.',
+    composition: 'Asymmetric spreads and ruled folios',
+    strength: 'Clarity and evidence discipline',
+    motion: 'Drawn rules and resolving figures',
+    colors: ['#f3efe6', '#15191d', '#123f73'],
+  },
+  {
+    number: '02',
+    name: 'Deep Signal',
+    href: '/design-lab/deep-signal/',
+    premise: 'An immersive ink environment that gives research systems depth without drifting into spectacle.',
+    composition: 'Layered technical chapters',
+    strength: 'Research atmosphere and diagrams',
+    motion: 'Sequential signal activation',
+    colors: ['#06111f', '#e8edf2', '#4d85c7'],
+  },
+  {
+    number: '03',
+    name: 'Dynamic Contrast',
+    href: '/design-lab/dynamic-contrast/',
+    premise: 'A changing light-and-dark narrative that makes research, engineering, and trajectory feel progressive.',
+    composition: 'Contrasting narrative bands',
+    strength: 'Momentum and immediate identity',
+    motion: 'Responsive rows and section shifts',
+    colors: ['#0a2c52', '#f4f1ea', '#e9b949'],
+  },
+];
+---
+
+<DesignLabLayout
+  title="Portfolio Art-Direction Study — Roger Baiges Trilla"
+  description="Three responsive art-direction studies for Roger Baiges Trilla’s portfolio."
+  bodyClass="dl-index-page"
+>
+  <div class="dl-index">
+    <header class="dl-index__header">
+      <a href="/" class="dl-index__name" aria-label="Roger Baiges home">Roger Baiges Trilla</a>
+      <p>Portfolio art-direction study · 2026</p>
+    </header>
+
+    <main id="main-content">
+      <section class="dl-index__intro" aria-labelledby="lab-title">
+        <p class="dl-index__eyebrow">One story · three visual systems</p>
+        <h1 id="lab-title">Three ways to make technical depth immediately legible.</h1>
+        <p class="dl-index__lede">
+          Every route uses the same approved claims, project sequence, portrait, and evidence. The comparison is about hierarchy, atmosphere, motion, and how well each direction makes research and engineering feel tangible.
+        </p>
+        <div class="dl-index__criteria" aria-label="Shared review criteria">
+          <span>Six-second clarity</span>
+          <span>Credibility</span>
+          <span>Technical tangibility</span>
+          <span>Mobile quality</span>
+          <span>Memorability</span>
+        </div>
+      </section>
+
+      <section class="dl-index__directions" aria-label="Art directions">
+        {directions.map((direction) => (
+          <a class="dl-index__direction" href={direction.href}>
+            <span class="dl-index__number">{direction.number}</span>
+            <div class="dl-index__direction-main">
+              <div class="dl-index__direction-heading">
+                <h2>{direction.name}</h2>
+                <span aria-hidden="true">↗</span>
+              </div>
+              <p>{direction.premise}</p>
+              <div class="dl-index__swatches" aria-label={`${direction.name} color study`}>
+                {direction.colors.map((color) => (
+                  <span style={`--dl-swatch: ${color}`}><span class="dl-visually-hidden">{color}</span></span>
+                ))}
+              </div>
+            </div>
+            <dl class="dl-index__facts">
+              <div><dt>Composition</dt><dd>{direction.composition}</dd></div>
+              <div><dt>Best at</dt><dd>{direction.strength}</dd></div>
+              <div><dt>Motion</dt><dd>{direction.motion}</dd></div>
+            </dl>
+          </a>
+        ))}
+      </section>
+
+      <section class="dl-index__note">
+        <p>These routes are isolated visual studies. No direction is selected here; the decision follows desktop, mobile, interaction, and credibility review.</p>
+      </section>
+    </main>
+
+    <footer class="dl-index__footer">
+      <span>© 2026 Roger Baiges Trilla. All rights reserved.</span>
+      <a href="mailto:rogerbaigestrilla@gmail.com">rogerbaigestrilla@gmail.com</a>
+    </footer>
+  </div>
+</DesignLabLayout>
+
+<style is:global>
+  .dl-index-page {
+    background: #f0eee9;
+    color: #171a1e;
+  }
+
+  .dl-index {
+    width: min(100% - 3rem, 82rem);
+    margin: 0 auto;
+  }
+
+  .dl-index__header {
+    display: flex;
+    min-height: 5.75rem;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid #bbb9b2;
+    font-size: 0.75rem;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+
+  .dl-index__header p { margin: 0; color: #666861; }
+  .dl-index__name { font-weight: 800; text-decoration: none; }
+
+  .dl-index__intro {
+    display: grid;
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    gap: 1rem;
+    padding: clamp(4.5rem, 9vw, 8rem) 0 clamp(3.75rem, 7vw, 6rem);
+  }
+
+  .dl-index__eyebrow {
+    grid-column: 1 / 4;
+    margin: 0.5rem 0 0;
+    color: #123f73;
+    font-size: 0.72rem;
+    font-weight: 800;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  .dl-index__intro h1 {
+    grid-column: 4 / -1;
+    max-width: 12ch;
+    margin: 0;
+    font-family: Georgia, 'Times New Roman', serif;
+    font-size: clamp(3rem, 6.6vw, 6.7rem);
+    font-weight: 400;
+    letter-spacing: -0.055em;
+    line-height: 0.94;
+  }
+
+  .dl-index__lede {
+    grid-column: 4 / 10;
+    margin: 2rem 0 0;
+    color: #50534f;
+    font-size: clamp(1rem, 1.5vw, 1.2rem);
+    line-height: 1.65;
+  }
+
+  .dl-index__criteria {
+    grid-column: 4 / -1;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.8rem 1.5rem;
+    margin-top: 1.75rem;
+    padding-top: 1rem;
+    border-top: 1px solid #bbb9b2;
+    color: #4c4f4a;
+    font-size: 0.75rem;
+  }
+
+  .dl-index__directions { border-top: 1px solid #171a1e; }
+
+  .dl-index__direction {
+    display: grid;
+    grid-template-columns: 1fr 6fr 4fr;
+    gap: clamp(1rem, 3vw, 3rem);
+    padding: clamp(2rem, 4vw, 3.5rem) 0;
+    border-bottom: 1px solid #bbb9b2;
+    text-decoration: none;
+    transition: color 220ms ease-out, padding 220ms ease-out;
+  }
+
+  .dl-index__direction:hover,
+  .dl-index__direction:focus-visible {
+    color: #123f73;
+    padding-left: 0.65rem;
+    padding-right: 0.65rem;
+  }
+
+  .dl-index__direction:focus-visible { outline: 2px solid #123f73; outline-offset: 4px; }
+  .dl-index__number { font-family: Georgia, serif; font-size: 1.1rem; }
+
+  .dl-index__direction-heading {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 1rem;
+  }
+
+  .dl-index__direction h2 {
+    margin: 0;
+    font-family: Georgia, 'Times New Roman', serif;
+    font-size: clamp(2.1rem, 4vw, 4rem);
+    font-weight: 400;
+    letter-spacing: -0.045em;
+    line-height: 1;
+  }
+
+  .dl-index__direction-main > p {
+    max-width: 38rem;
+    margin: 1rem 0 0;
+    color: #5c5d58;
+    line-height: 1.6;
+  }
+
+  .dl-index__swatches { display: flex; gap: 0.4rem; margin-top: 1.4rem; }
+  .dl-index__swatches > span { width: 2.25rem; height: 0.38rem; background: var(--dl-swatch); }
+  .dl-index__facts { margin: 0; }
+  .dl-index__facts > div { padding: 0.75rem 0; border-top: 1px solid #cbc9c2; }
+  .dl-index__facts dt { color: #74756f; font-size: 0.65rem; letter-spacing: 0.08em; text-transform: uppercase; }
+  .dl-index__facts dd { margin: 0.25rem 0 0; font-size: 0.85rem; line-height: 1.4; }
+
+  .dl-index__note {
+    display: flex;
+    justify-content: flex-end;
+    padding: 3rem 0 6rem;
+  }
+
+  .dl-index__note p { max-width: 36rem; margin: 0; color: #676964; line-height: 1.6; }
+
+  .dl-index__footer {
+    display: flex;
+    min-height: 6rem;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    border-top: 1px solid #171a1e;
+    color: #5d5f5b;
+    font-size: 0.72rem;
+  }
+
+  .dl-index__footer a { text-underline-offset: 0.25em; }
+
+  @media (max-width: 760px) {
+    .dl-index { width: min(100% - 2rem, 82rem); }
+    .dl-index__header { align-items: flex-start; flex-direction: column; justify-content: center; gap: 0.3rem; }
+    .dl-index__intro { display: block; padding: 3.5rem 0; }
+    .dl-index__eyebrow { margin: 0 0 1.5rem; }
+    .dl-index__intro h1 { font-size: clamp(3rem, 15vw, 4.7rem); }
+    .dl-index__lede { margin-top: 1.5rem; }
+    .dl-index__criteria { margin-top: 1.5rem; }
+    .dl-index__direction { grid-template-columns: 2.5rem 1fr; }
+    .dl-index__facts { grid-column: 2; margin-top: 1rem; }
+    .dl-index__footer { align-items: flex-start; flex-direction: column; justify-content: center; }
+  }
+</style>

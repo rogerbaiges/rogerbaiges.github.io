@@ -1,0 +1,326 @@
+---
+import TechnicalDiagram from '@/design-lab/TechnicalDiagram.astro';
+import { labContent, type DiagramKind, type WorkItem } from '@/design-lab/data';
+
+const navigation = [
+  labContent.nav.find((item) => item.href === '#experience')!,
+  labContent.nav.find((item) => item.href === '#work')!,
+  labContent.nav.find((item) => item.href === '#education')!,
+  labContent.nav.find((item) => item.href === '#about')!,
+  { label: 'Contact', href: '#contact' },
+];
+
+const contentSections: ReadonlyArray<{
+  id: string;
+  number: string;
+  kicker: string;
+  title: string;
+  lede: string;
+  items: readonly WorkItem[];
+}> = [
+  {
+    id: 'experience',
+    number: '01',
+    kicker: 'Research & industry',
+    title: 'Advanced model work, from repair to evaluation.',
+    lede:
+      'Research into model adaptation and engineering for demanding document intelligence—two environments where results must remain measurable.',
+    items: labContent.work.slice(0, 2),
+  },
+  {
+    id: 'work',
+    number: '02',
+    kicker: 'Selected systems',
+    title: 'Built across models, modalities, and tools.',
+    lede:
+      'Three end-to-end systems spanning agentic reasoning, language-model training, and multimodal retrieval.',
+    items: labContent.work.slice(2),
+  },
+];
+
+const diagramCaptions: Record<DiagramKind, string> = {
+  repair:
+    'Original compatibility → model adaptation → compatibility failure → activation-space repair',
+  football: 'Tracking + events + commentary → tool selection → tactical answer',
+  catgpt: 'Corpus → tokenizer → pretraining → instruction tuning',
+  laia: 'Document / image / voice → retrieval and reasoning → guided procedure',
+};
+---
+
+<div class="editorial-site" id="top">
+  <header class="editorial-nav">
+    <nav class="editorial-nav__inner editorial-shell editorial-grid" aria-label="Primary navigation">
+      <a class="editorial-nav__identity" href="#top" aria-label={`${labContent.name}, home`}>
+        <span class="editorial-nav__name">{labContent.name}</span>
+        <span class="editorial-nav__monogram" aria-hidden="true">RBT / 26</span>
+      </a>
+
+      <ul class="editorial-nav__links">
+        {navigation.map((item) => (
+          <li><a href={item.href} data-dl-nav>{item.label}</a></li>
+        ))}
+      </ul>
+    </nav>
+  </header>
+
+  <main id="main-content">
+    <section class="editorial-hero editorial-shell editorial-grid" aria-labelledby="editorial-hero-title">
+      <div class="editorial-hero__copy">
+        <p class="editorial-eyebrow">{labContent.hero.eyebrow}</p>
+        <h1 class="editorial-hero__headline" id="editorial-hero-title">
+          {labContent.hero.headline}
+        </h1>
+      </div>
+
+      <div class="editorial-hero__context">
+        <p class="editorial-hero__intro">{labContent.hero.paragraph}</p>
+        <div class="editorial-actions" aria-label="Primary actions">
+          <a class="editorial-action" href="#experience">{labContent.hero.primaryCta}</a>
+          <a
+            class="editorial-action editorial-action--secondary"
+            href={labContent.hero.cvHref}
+            download
+          >
+            {labContent.hero.secondaryCta}
+          </a>
+        </div>
+      </div>
+
+      <div class="editorial-hero__mobile-proof" aria-label="Profile highlights">
+        {labContent.proof.map((item) => (
+          <div class="editorial-hero__mobile-proof-item">
+            <strong>{item.label}</strong>
+            <small>{item.detail}</small>
+          </div>
+        ))}
+      </div>
+
+      <div class="editorial-hero__signals" aria-label="Selected evidence">
+        <div class="editorial-signal">
+          <span class="editorial-signal__label">{labContent.hero.researchSignal.label}</span>
+          <strong class="editorial-signal__value">{labContent.hero.researchSignal.value}</strong>
+          <span class="editorial-signal__detail">{labContent.hero.researchSignal.detail}</span>
+        </div>
+        <div class="editorial-signal">
+          <span class="editorial-signal__label">{labContent.hero.industrySignal.label}</span>
+          <strong class="editorial-signal__value">{labContent.hero.industrySignal.value}</strong>
+          <span class="editorial-signal__detail">{labContent.hero.industrySignal.detail}</span>
+        </div>
+      </div>
+
+      <figure class="editorial-hero__portrait">
+        <img
+          src="/images/profile.jpg"
+          alt={`Portrait of ${labContent.name}`}
+          width="944"
+          height="1417"
+          loading="eager"
+          fetchpriority="high"
+        />
+      </figure>
+    </section>
+
+    <aside class="editorial-proof" aria-label="Profile highlights">
+      <ol class="editorial-proof__list editorial-shell">
+        {labContent.proof.map((item) => (
+          <li class="editorial-proof__item" data-dl-reveal>
+            <span class="editorial-proof__number" aria-hidden="true">{item.number}</span>
+            <strong class="editorial-proof__text">{item.label}</strong>
+            <span class="editorial-proof__detail">{item.detail}</span>
+          </li>
+        ))}
+      </ol>
+    </aside>
+
+    {contentSections.map((section) => (
+      <section
+        class="editorial-section editorial-shell"
+        id={section.id}
+        aria-labelledby={`${section.id}-title`}
+        data-dl-section
+      >
+        <header class="editorial-section__head editorial-grid" data-dl-reveal>
+          <span class="editorial-section__number" aria-hidden="true">{section.number}</span>
+          <p class="editorial-kicker">{section.kicker}</p>
+          <h2 class="editorial-section__title" id={`${section.id}-title`}>{section.title}</h2>
+          <p class="editorial-section__lede">{section.lede}</p>
+        </header>
+
+        <div class="editorial-folios">
+          {section.items.map((item) => (
+            <article
+              class="editorial-folio editorial-grid"
+              id={item.id}
+              aria-labelledby={`${item.id}-title`}
+              data-dl-work-row
+              data-dl-reveal
+            >
+              <span class="editorial-folio__index" aria-hidden="true">{item.number}</span>
+
+              <div class="editorial-folio__header">
+                <p class="editorial-folio__context">{item.context}</p>
+                <h3 class="editorial-folio__title" id={`${item.id}-title`}>{item.title}</h3>
+                <p class="editorial-folio__summary">{item.statement}</p>
+                <p class="editorial-folio__summary">{item.ownership}</p>
+
+                {item.diagram && (
+                  <ul class="editorial-folio__details" aria-label="Project details">
+                    {item.details.map((detail) => (
+                      <li class="editorial-folio__detail">{detail}</li>
+                    ))}
+                  </ul>
+                )}
+
+                <p class="editorial-folio__result">
+                  <span class="editorial-folio__result-label">Result</span>
+                  <strong class="editorial-folio__result-value">{item.result}</strong>
+                </p>
+
+                {item.href && item.linkLabel && (
+                  <a
+                    class="editorial-folio__link"
+                    href={item.href}
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    {item.linkLabel}
+                  </a>
+                )}
+              </div>
+
+              {item.diagram ? (
+                <div class="editorial-figure">
+                  <div class="editorial-figure__head" aria-hidden="true">
+                    <span class="editorial-figure__number">Fig. {item.number}</span>
+                    <span>System sequence</span>
+                  </div>
+                  <TechnicalDiagram
+                    kind={item.diagram}
+                    caption={diagramCaptions[item.diagram]}
+                    class="editorial-figure__diagram"
+                  />
+                </div>
+              ) : (
+                <div class="editorial-field-report" aria-label="System constraints and review flow">
+                  <div class="editorial-field-report__line">
+                    <span class="editorial-field-report__label">01 / System</span>
+                    <strong class="editorial-field-report__value">On-premises VLM fine-tuning</strong>
+                  </div>
+                  <div class="editorial-field-report__line">
+                    <span class="editorial-field-report__label">02 / Data</span>
+                    <strong class="editorial-field-report__value">{item.details[0]}</strong>
+                  </div>
+                  <div class="editorial-field-report__line">
+                    <span class="editorial-field-report__label">03 / Control</span>
+                    <strong class="editorial-field-report__value">{item.details[1]}</strong>
+                  </div>
+                </div>
+              )}
+            </article>
+          ))}
+        </div>
+      </section>
+    ))}
+
+    <section
+      class="editorial-section editorial-shell"
+      id="education"
+      aria-labelledby="education-title"
+      data-dl-section
+    >
+      <header class="editorial-section__head editorial-grid" data-dl-reveal>
+        <span class="editorial-section__number" aria-hidden="true">03</span>
+        <p class="editorial-kicker">Education</p>
+        <h2 class="editorial-section__title" id="education-title">
+          From AI foundations to deeper specialization.
+        </h2>
+      </header>
+
+      <ol class="editorial-trajectory">
+        {labContent.education.map((item) => (
+          <li class="editorial-record" data-dl-reveal>
+            <span class="editorial-record__number" aria-hidden="true">{item.number}</span>
+            <strong class="editorial-record__institution">{item.institution}</strong>
+            <p class="editorial-record__degree">
+              {item.degree}<br />
+              <span>{item.detail}</span>
+            </p>
+            <span class="editorial-record__status">{item.period}</span>
+          </li>
+        ))}
+      </ol>
+    </section>
+
+    <section class="editorial-section editorial-recognition" aria-labelledby="recognition-title">
+      <div class="editorial-shell">
+        <header class="editorial-section__head editorial-grid" data-dl-reveal>
+          <span class="editorial-section__number" aria-hidden="true">04</span>
+          <p class="editorial-kicker">Recognition</p>
+          <h2 class="editorial-section__title" id="recognition-title">Selected recognition.</h2>
+        </header>
+
+        <ol class="editorial-recognition__list">
+          {labContent.recognition.map((item, index) => (
+            <li class="editorial-recognition__item" data-dl-reveal>
+              <span class="editorial-recognition__number" aria-hidden="true">
+                {String(index + 1).padStart(2, '0')}
+              </span>
+              <strong class="editorial-recognition__title">{item.title}</strong>
+              <span class="editorial-recognition__meta">{item.detail}</span>
+            </li>
+          ))}
+        </ol>
+      </div>
+    </section>
+
+    <section
+      class="editorial-section editorial-shell"
+      id="about"
+      aria-labelledby="about-title"
+      data-dl-section
+    >
+      <header class="editorial-section__head editorial-grid" data-dl-reveal>
+        <span class="editorial-section__number" aria-hidden="true">05</span>
+        <p class="editorial-kicker">{labContent.about.eyebrow}</p>
+      </header>
+
+      <div class="editorial-grid" data-dl-reveal>
+        <h2 class="editorial-about__copy" id="about-title">{labContent.about.headline}</h2>
+        <div class="editorial-about__aside">
+          <p>{labContent.about.paragraph}</p>
+          <p>{labContent.about.note}</p>
+        </div>
+      </div>
+    </section>
+
+    <section
+      class="editorial-contact"
+      id="contact"
+      aria-labelledby="contact-title"
+      data-dl-section
+    >
+      <div class="editorial-shell editorial-grid" data-dl-reveal>
+        <p class="editorial-contact__kicker editorial-kicker">{labContent.contact.eyebrow}</p>
+        <div class="editorial-contact__content">
+          <h2 class="editorial-contact__title" id="contact-title">{labContent.contact.headline}</h2>
+          <p class="editorial-contact__paragraph">{labContent.contact.paragraph}</p>
+          <a class="editorial-contact__link" href={labContent.contact.emailHref}>
+            {labContent.contact.email}
+          </a>
+          <ul class="editorial-contact__social" aria-label="Social profiles">
+            {labContent.contact.links.map((link) => (
+              <li><a href={link.href} target="_blank" rel="noreferrer">{link.label}</a></li>
+            ))}
+          </ul>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="editorial-footer">
+    <div class="editorial-footer__inner editorial-shell">
+      <p>© 2026 Roger Baiges Trilla. All rights reserved.</p>
+      <a href="#top">Back to top ↑</a>
+    </div>
+  </footer>
+</div>

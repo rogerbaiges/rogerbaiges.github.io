@@ -1,0 +1,293 @@
+---
+import TechnicalDiagram from '@/design-lab/TechnicalDiagram.astro';
+import { labContent, type DiagramKind } from '@/design-lab/data';
+import '@/design-lab/styles/deep-signal.css';
+
+const diagramCaptions: Record<DiagramKind, string> = {
+  repair: 'Original compatibility → model adaptation → compatibility failure → activation-space repair',
+  football: 'Tracking + events + commentary → tool selection → tactical answer',
+  catgpt: 'Corpus → tokenizer → pretraining → instruction tuning',
+  laia: 'Document / image / voice → retrieval and reasoning → guided procedure',
+};
+
+const serimagRows = [
+  { mark: '01', label: 'Constraint', detail: labContent.work[1].details[0], value: 'On premises' },
+  { mark: '02', label: 'Method', detail: 'VLM fine-tuning and evaluation', value: 'Trainable' },
+  { mark: '03', label: 'Decision', detail: labContent.work[1].details[1], value: 'Human review' },
+  { mark: '04', label: 'Threshold', detail: 'Required accepted-field accuracy', value: '98%' },
+];
+---
+
+<div class="ds-page">
+  <header class="ds-header">
+    <div class="ds-shell ds-header__inner">
+      <a class="ds-brand" href="#main-content" aria-label={`${labContent.name}, return to introduction`}>
+        {labContent.shortName}
+      </a>
+
+      <nav class="ds-nav" aria-label="Primary navigation">
+        {labContent.nav.map((item) => (
+          <a class="ds-nav__link" href={item.href} data-dl-nav>{item.label}</a>
+        ))}
+      </nav>
+    </div>
+  </header>
+
+  <main id="main-content">
+    <section class="ds-shell ds-hero" aria-labelledby="ds-hero-title">
+      <div class="ds-hero__content" data-dl-reveal>
+        <p class="ds-kicker">{labContent.hero.eyebrow}</p>
+        <h1 class="ds-hero__title" id="ds-hero-title">{labContent.hero.headline}</h1>
+        <p class="ds-hero__summary">{labContent.hero.paragraph}</p>
+
+        <div class="ds-mobile-evidence" aria-label="Selected evidence">
+          <div class="ds-mobile-evidence__signals">
+            {[labContent.hero.researchSignal, labContent.hero.industrySignal].map((signal) => (
+              <div>
+                <span>{signal.label}</span>
+                <strong>{signal.value}</strong>
+                <small>{signal.detail}</small>
+              </div>
+            ))}
+          </div>
+          <div class="ds-mobile-evidence__proof">
+            {labContent.proof.map((item) => (
+              <div class="ds-proof-item">
+                <strong>{item.label}</strong>
+                <small>{item.detail}</small>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        <div class="ds-actions">
+          <a class="ds-action ds-action--primary" href="#work">{labContent.hero.primaryCta}</a>
+          <a
+            class="ds-action ds-action--download"
+            href={labContent.hero.cvHref}
+            download="RogerBaigesCV.pdf"
+          >
+            {labContent.hero.secondaryCta}
+          </a>
+        </div>
+
+        <div class="ds-hero-proof" aria-label="Profile highlights">
+          {labContent.proof.map((item) => (
+            <div class="ds-proof-item">
+              <strong>{item.label}</strong>
+              <small>{item.detail}</small>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <div class="ds-hero__visual" data-dl-reveal>
+        <div class="ds-portrait-stack">
+          <div class="ds-portrait-frame">
+            <img
+              src="/images/profile.jpg"
+              alt={`Portrait of ${labContent.name}`}
+              width="944"
+              height="1417"
+            />
+          </div>
+          <div class="ds-portrait-caption">
+            <span class="ds-portrait-caption__mark" aria-hidden="true"></span>
+            <div class="ds-portrait-caption__signals">
+              <div class="ds-portrait-caption__signal">
+                <strong>{labContent.hero.researchSignal.value}</strong>
+                <span>{labContent.hero.researchSignal.label} · {labContent.hero.researchSignal.detail}</span>
+              </div>
+              <div class="ds-portrait-caption__signal">
+                <strong>{labContent.hero.industrySignal.value}</strong>
+                <span>{labContent.hero.industrySignal.label} · {labContent.hero.industrySignal.detail}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="ds-shell ds-section" id="work" data-dl-section aria-labelledby="ds-work-heading">
+      <div class="ds-section-heading" data-dl-reveal>
+        <p class="ds-kicker">Selected systems · 01—05</p>
+        <div>
+          <h2 id="ds-work-heading">Research depth. Engineering consequence.</h2>
+          <p>
+            Five systems trace the same instinct: understand the hard failure, build the mechanism that addresses it, and make the result measurable.
+          </p>
+        </div>
+      </div>
+
+      <div class="ds-work-list">
+        {labContent.work.map((item, index) => {
+          const isSerimag = item.id === 'serimag';
+          const startsExperience = index === 0;
+          const articleId = startsExperience ? 'experience' : item.id;
+
+          return (
+            <article
+              class="ds-chapter"
+              id={articleId}
+              data-dl-work-row
+              data-dl-reveal
+              data-dl-section={startsExperience ? true : undefined}
+              aria-labelledby={`ds-${item.id}-title`}
+            >
+              {isSerimag && <span class="ds-anchor" id="serimag" aria-hidden="true"></span>}
+              <div class="ds-chapter__rail" aria-hidden="true">
+                <span class="ds-chapter__number">CHAPTER {item.number}</span>
+              </div>
+
+              <div class="ds-chapter__body">
+                <div class="ds-chapter__copy">
+                  <div class="ds-chapter__meta">
+                    <span>{item.context}</span>
+                  </div>
+                  <h3 class="ds-chapter__title" id={`ds-${item.id}-title`}>{item.title}</h3>
+                  <p class="ds-chapter__lede">{item.statement}</p>
+
+                  <div class="ds-chapter__evidence">
+                    <div class="ds-evidence">
+                      <strong>Ownership</strong>
+                      <span>{item.ownership}</span>
+                    </div>
+                    <div class="ds-evidence">
+                      <strong>Result</strong>
+                      <span>{item.result}</span>
+                    </div>
+                  </div>
+
+                  <ul class="ds-detail-list" aria-label={`${item.title} technical details`}>
+                    {item.details.map((detail) => <li>{detail}</li>)}
+                  </ul>
+
+                  {item.href && item.linkLabel && (
+                    <a class="ds-chapter__link" href={item.href} target="_blank" rel="noopener noreferrer">
+                      {item.linkLabel}
+                    </a>
+                  )}
+                </div>
+
+                <div
+                  class="ds-technical-surface"
+                  tabindex="0"
+                  role="group"
+                  aria-label={`${item.title} system representation`}
+                >
+                  <div class="ds-technical-surface__inner">
+                    <div class="ds-surface-head">
+                      <span>{item.title} · system path</span>
+                      <span class="ds-surface-head__state">System trace</span>
+                    </div>
+
+                    {item.diagram ? (
+                      <TechnicalDiagram
+                        kind={item.diagram}
+                        caption={diagramCaptions[item.diagram]}
+                        class="ds-diagram"
+                      />
+                    ) : (
+                      <div class="ds-system-ledger" aria-label="Serimag system constraints and decisions">
+                        {serimagRows.map((row) => (
+                          <div class="ds-system-ledger__row">
+                            <span class="ds-system-ledger__mark" aria-hidden="true">{row.mark}</span>
+                            <div class="ds-system-ledger__copy">
+                              <strong>{row.label}</strong>
+                              <span>{row.detail}</span>
+                            </div>
+                            <span class="ds-system-ledger__value">{row.value}</span>
+                          </div>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+                </div>
+              </div>
+            </article>
+          );
+        })}
+      </div>
+    </section>
+
+    <section class="ds-shell ds-section" id="education" data-dl-section aria-labelledby="ds-education-heading">
+      <div class="ds-section-heading" data-dl-reveal>
+        <p class="ds-kicker">Trajectory and recognition</p>
+        <div>
+          <h2 id="ds-education-heading">A rigorous foundation for the next scale of work.</h2>
+          <p>
+            Advanced study, consistently strong academic results, and selective recognition reinforce the systems and research above.
+          </p>
+        </div>
+      </div>
+
+      <div class="ds-credentials">
+        <div class="ds-education" aria-label="Education">
+          {labContent.education.map((item) => (
+            <article class="ds-education__row" data-dl-reveal>
+              <span class="ds-education__mark">{item.institution}</span>
+              <div class="ds-education__copy">
+                <h3>{item.degree}</h3>
+                <p>{item.detail}</p>
+              </div>
+              <span class="ds-education__date">{item.period}</span>
+            </article>
+          ))}
+        </div>
+
+        <aside class="ds-recognition" aria-labelledby="ds-recognition-heading" data-dl-reveal>
+          <div class="ds-recognition__head">
+            <p class="ds-kicker">Recognition</p>
+            <h3 id="ds-recognition-heading">Selected distinctions</h3>
+          </div>
+          {labContent.recognition.map((item, index) => (
+            <div class="ds-recognition__item">
+              <span class="ds-recognition__index">0{index + 1}</span>
+              <div>
+                <strong>{item.title}</strong>
+                <span>{item.detail}</span>
+              </div>
+            </div>
+          ))}
+        </aside>
+      </div>
+    </section>
+
+    <section class="ds-shell ds-section ds-about" id="about" data-dl-section aria-labelledby="ds-about-heading">
+      <p class="ds-kicker" data-dl-reveal>{labContent.about.eyebrow}</p>
+      <div data-dl-reveal>
+        <h2 class="ds-about__statement" id="ds-about-heading">{labContent.about.headline}</h2>
+        <div class="ds-about__detail">
+          <p>{labContent.about.paragraph}</p>
+          <p>{labContent.about.note}</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="ds-contact" aria-labelledby="ds-contact-heading">
+      <div class="ds-shell ds-contact__inner">
+        <div data-dl-reveal>
+          <p class="ds-kicker">{labContent.contact.eyebrow}</p>
+          <h2 id="ds-contact-heading">{labContent.contact.headline}</h2>
+          <p class="ds-hero__summary">{labContent.contact.paragraph}</p>
+        </div>
+
+        <div class="ds-contact__links" data-dl-reveal>
+          <a class="ds-contact__link" href={labContent.contact.emailHref}>{labContent.contact.email}</a>
+          {labContent.contact.links.map((link) => (
+            <a class="ds-contact__link" href={link.href} target="_blank" rel="noopener noreferrer">
+              {link.label}
+            </a>
+          ))}
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="ds-footer">
+    <div class="ds-shell ds-footer__inner">
+      <span>© 2026 Roger Baiges Trilla. All rights reserved.</span>
+      <a class="ds-footer__back" href="#main-content">Back to top ↑</a>
+    </div>
+  </footer>
+</div>
