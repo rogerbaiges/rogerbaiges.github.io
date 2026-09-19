@@ -1,0 +1,15 @@
+---
+import LegacyRedirect from '@/components/site/LegacyRedirect.astro';
+
+const destination = '/projects/#ipurdiar';
+const canonicalPath = '/projects/';
+---
+
+<LegacyRedirect
+  destination={destination}
+  canonicalPath={canonicalPath}
+  title="IpurdIAr moved"
+  heading="IpurdIAr now lives under Projects."
+  linkLabel="continue to IpurdIAr"
+  description="Roger Baiges Trilla’s IpurdIAr project now lives on the Projects page."
+/>

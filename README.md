@@ -1,50 +1,39 @@
-# Lumina — Academic Website Template
+# Roger Baiges Trilla — Portfolio
 
-**Build a stunning academic website in under 5 minutes.** No frontend experience needed.
+Production portfolio for Roger Baiges Trilla, an AI researcher and engineer working across
+research, industry, language models, multimodal systems, private AI, and agentic workflows.
 
-Lumina is an Astro-powered template designed for researchers, professors, and PhD students. Edit one YAML file, drop in your `.bib`, and you're live.
+## Local development
 
-**[Live Demo](https://yy-gx.github.io)** · **[Full Documentation](./docs/FEATURES.md)** · **[Installation](./docs/INSTALL.md)** · **[Usage Guide](./docs/USAGE.md)**
-
----
-
-### Why Lumina?
-
-- **One config file.** Your entire site — profile, social links, pages, theme — lives in `site.config.yml`.
-- **BibTeX-native.** Drop your `papers.bib` and get a beautiful, searchable publications page with venue badges, links, and author highlighting — automatically.
-- **10 themes × 5 palettes = 50+ looks.** Switch with one line. Every combination supports dark mode.
-- **18 pages ready to go.** Publications, CV, Blog, Projects, Teaching, News, Team, Gallery, Talks, and more. Toggle each on/off.
-- **Blazing fast.** Static HTML. Zero JavaScript frameworks on the client. Perfect Lighthouse scores.
-
-### Quick Start
+Requires Node.js 22.12 or newer.
 
 ```bash
-git clone https://github.com/YY-GX/Lumina.git my-site
-cd my-site
-npm install
+npm ci
+npm run dev
 ```
 
-Edit `site.config.yml` with your info, then:
+Open `http://localhost:4321/`.
+
+## Validation
 
 ```bash
-npm run dev       # Preview at localhost:4321
-npm run build     # Build static site
+npm test
+npm run check
+npm run build
+npm run preview
 ```
 
-Deploy to GitHub Pages in one push — workflow included. See **[Installation](./docs/INSTALL.md)** for full setup.
+The build is static and deploys to GitHub Pages through
+`.github/workflows/deploy.yml`.
 
-### At a Glance
+## Content and assets
 
-| Feature | Details |
-|---|---|
-| Framework | Astro 5 + TypeScript |
-| Styling | Tailwind CSS 4 |
-| Content | Markdown, MDX, BibTeX, YAML |
-| Themes | 10 themes, 50+ color combos, dark mode |
-| Pages | 18 toggleable page types |
-| Extras | View transitions, Cmd+K search, RSS, sitemap, SEO |
-| Deploy | GitHub Pages (Actions workflow included) |
+- Portfolio content is centralized in `src/data/portfolio.ts`.
+- The final downloadable CV is `public/files/RogerBaigesCV.pdf`.
+- Organization asset provenance and restrictions are documented in
+  `docs/ASSET_SOURCES.md`.
+- Self-hosted font provenance and licenses are documented in `public/fonts/README.md`.
 
-### License
-
-MIT — free for personal and commercial use.
+The EPFL mark is included at Roger’s explicit request. EPFL identifies it as a registered
+trademark, so the portfolio keeps the supplied red artwork unchanged and records the remaining
+authorization caveat in `docs/ASSET_SOURCES.md`.

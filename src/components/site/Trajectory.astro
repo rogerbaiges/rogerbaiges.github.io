@@ -1,0 +1,25 @@
+---
+import { organizations, trajectory } from '@/data/portfolio';
+import OrganizationMark from './OrganizationMark.astro';
+---
+
+<ol class="trajectory-list">
+  {trajectory.map((item, index) => (
+    <li class="trajectory-item" data-reveal style={`--reveal-order:${index}`}>
+      <span class="trajectory-item__dot" aria-hidden="true"></span>
+      <a
+        class="trajectory-item__body"
+        href={item.href}
+        target="_blank"
+        rel="noopener noreferrer"
+        aria-label={`${item.title} at ${organizations[item.organization].shortName} — official website (opens in a new tab)`}
+      >
+        <p class="trajectory-item__period">{item.period}</p>
+        <OrganizationMark organization={item.organization} compact />
+        <h3>{item.title}</h3>
+        <p>{item.detail}</p>
+        <span class="trajectory-item__arrow" aria-hidden="true">↗</span>
+      </a>
+    </li>
+  ))}
+</ol>

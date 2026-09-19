@@ -1,17 +1,19 @@
 import { defineConfig } from 'astro/config';
 import sitemap from '@astrojs/sitemap';
-import tailwindcss from '@tailwindcss/vite';
+
+const canonicalSitemapPaths = new Set([
+  '/',
+  '/experience/',
+  '/projects/',
+  '/awards/',
+  '/about/',
+  '/cv/',
+]);
 
 export default defineConfig({
   site: 'https://rogerbaiges.github.io',
-  integrations: [sitemap()],
+  integrations: [
+    sitemap({ filter: (page) => canonicalSitemapPaths.has(new URL(page).pathname) }),
+  ],
   output: 'static',
-  vite: {
-    plugins: [tailwindcss()],
-  },
-  markdown: {
-    shikiConfig: {
-      themes: { light: 'github-light', dark: 'github-dark' },
-    },
-  },
 });

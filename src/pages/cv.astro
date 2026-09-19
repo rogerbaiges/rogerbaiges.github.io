@@ -1,170 +1,51 @@
 ---
-import BaseLayout from '@components/layout/BaseLayout.astro';
-import Timeline from '@components/ui/Timeline.astro';
-import { getConfig } from '@lib/config';
-import { loadCVData } from '@lib/content';
-
-const config = getConfig();
-if (!config.pages.cv) return Astro.redirect('/404');
-
-const cvData = loadCVData();
-const cvDownloadPath = '/files/RogerBaigesCV.pdf';
-const showPdfDownload = !config.cv?.hide_pdf_download;
+import { site } from '@/data/portfolio';
+import SiteLayout from '@/layouts/SiteLayout.astro';
 ---
 
-<BaseLayout title="CV" description="A compact online summary of my academic background, research experience, technical work, and selected distinctions.">
-  <div class="page-header animate-on-scroll">
-    <h1 class="text-3xl">CV</h1>
-    <p class="mt-3 max-w-3xl text-[var(--color-text-secondary)]">
-      A compact online summary of my academic background, research experience, technical work, and selected distinctions.
-    </p>
-  </div>
-
-  {showPdfDownload && (
-    <div class="cv-actions animate-on-scroll">
-      <a href={cvDownloadPath} class="btn-primary" download="RogerBaigesCV.pdf">
-        <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true">
-          <path d="M12 3v11m0 0 4-4m-4 4-4-4M5 19h14" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" />
-        </svg>
-        Download CV
-      </a>
-      <a href={cvDownloadPath} class="cv-secondary-action" target="_blank" rel="noopener noreferrer">
-        Open PDF
-      </a>
+<SiteLayout
+  title="CV"
+  description="Preview and download Roger Baiges Trilla’s curriculum vitae."
+  bodyClass="cv-page"
+>
+  <header class="site-shell page-intro page-intro--compact page-intro--cv" data-reveal>
+    <p class="eyebrow">Curriculum vitae</p>
+    <div class="page-intro__main">
+      <h1>Roger Baiges Trilla — CV</h1>
+      <p class="page-intro__lede">
+        Research, engineering, education, projects, and recognition in one concise document.
+      </p>
+      <div class="page-intro__actions">
+        <a class="button button--primary" href={site.cvPath} target="_blank" rel="noopener noreferrer">
+          Open full screen <span aria-hidden="true">↗</span>
+        </a>
+        <a class="button button--secondary" href={site.cvPath} download="RogerBaigesCV.pdf">
+          Download PDF <span aria-hidden="true">↓</span>
+        </a>
+      </div>
     </div>
-  )}
+  </header>
 
-  {cvData.skills?.length > 0 && (
-    <section class="mb-12 animate-on-scroll">
-      <h2 class="cv-section-title">Skills</h2>
-      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-        {cvData.skills.map(skill => (
-          <div class="cv-card">
-            <h3 class="cv-card-label">{skill.category}</h3>
-            <div class="flex flex-wrap gap-1.5 mt-3">
-              {skill.items.map(item => (
-                <span class="cv-chip">{item}</span>
-              ))}
-            </div>
-          </div>
-        ))}
+  <section class="site-shell cv-preview-section" aria-label="CV document preview" data-reveal>
+    <div class="cv-preview">
+      <object
+        data={`${site.cvPath}#page=1&view=FitH`}
+        type="application/pdf"
+        title="Roger Baiges Trilla curriculum vitae"
+      >
+        <div class="cv-preview__fallback">
+          <p>Your browser cannot display the PDF preview.</p>
+          <a href={site.cvPath} target="_blank" rel="noopener noreferrer">Open the CV in a new tab</a>
+        </div>
+      </object>
+    </div>
+
+    <div class="cv-mobile-fallback">
+      <span class="cv-mobile-fallback__icon" aria-hidden="true">PDF</span>
+      <div>
+        <h2>Roger Baiges Trilla — Curriculum Vitae</h2>
+        <p>Use the buttons above to open the full document in your device’s PDF viewer or download a copy.</p>
       </div>
-    </section>
-  )}
-
-  {cvData.education?.length > 0 && (
-    <section class="mb-12 animate-on-scroll">
-      <h2 class="cv-section-title">Education</h2>
-      <Timeline items={cvData.education.map(item => ({
-        title: item.degree,
-        subtitle: item.institution,
-        date: item.period,
-        description: item.description,
-      }))} />
-    </section>
-  )}
-
-  {cvData.experience?.length > 0 && (
-    <section class="mb-12 animate-on-scroll">
-      <h2 class="cv-section-title">Experience</h2>
-      <Timeline items={cvData.experience.map(item => ({
-        title: item.title,
-        subtitle: item.organization,
-        date: item.period,
-        description: item.description,
-      }))} />
-    </section>
-  )}
-
-  {cvData.awards?.length > 0 && (
-    <section class="mb-12 animate-on-scroll">
-      <h2 class="cv-section-title">Awards and Honors</h2>
-      <div class="space-y-3">
-        {cvData.awards.map(award => (
-          <div class="cv-award-row">
-            <span class="cv-award-date">{award.date}</span>
-            <div>
-              <p class="font-medium">{award.title}</p>
-              <p class="text-sm text-[var(--color-accent)]">{award.organization}</p>
-              {award.description && <p class="mt-1 text-sm text-[var(--color-text-secondary)]">{award.description}</p>}
-            </div>
-          </div>
-        ))}
-      </div>
-    </section>
-  )}
-</BaseLayout>
-
-<style>
-  .cv-actions {
-    margin-bottom: 2rem;
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.75rem;
-  }
-
-  .cv-section-title {
-    margin-bottom: 1.4rem;
-    font-size: 1.38rem;
-  }
-
-  .cv-secondary-action {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    padding: 0.65rem 1rem;
-    border-radius: 14px;
-    border: 1px solid var(--color-border);
-    color: var(--color-text);
-    transition: border-color var(--transition-base), color var(--transition-base), background-color var(--transition-base), transform var(--transition-base);
-  }
-
-  .cv-secondary-action:hover {
-    border-color: var(--color-accent);
-    background: color-mix(in srgb, var(--color-accent) 5%, var(--color-card-bg));
-    color: var(--color-accent);
-    transform: translateY(-1px);
-    text-decoration: none;
-  }
-
-  .cv-card {
-    padding: 1rem;
-    border-radius: 16px;
-    border: 1px solid var(--color-border);
-    background: color-mix(in srgb, var(--color-card-bg) 98%, transparent);
-  }
-
-  .cv-card-label {
-    font-size: 0.9rem;
-    color: var(--color-accent);
-  }
-
-  .cv-chip {
-    padding: 0.2rem 0.65rem;
-    border-radius: 999px;
-    font-size: 0.78rem;
-    background: color-mix(in srgb, var(--color-border) 84%, transparent);
-    color: var(--color-text-secondary);
-  }
-
-  .cv-award-row {
-    display: grid;
-    gap: 0.5rem;
-    padding: 0.9rem 0;
-    border-bottom: 1px solid var(--color-border);
-  }
-
-  .cv-award-date {
-    font-family: var(--font-mono);
-    font-size: 0.82rem;
-    color: var(--color-text-secondary);
-  }
-
-  @media (min-width: 768px) {
-    .cv-award-row {
-      grid-template-columns: 8rem minmax(0, 1fr);
-      gap: 1.25rem;
-      align-items: start;
-    }
-  }
-</style>
+    </div>
+  </section>
+</SiteLayout>

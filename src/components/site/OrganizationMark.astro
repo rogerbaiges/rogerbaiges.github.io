@@ -1,0 +1,59 @@
+---
+import { organizations, type OrganizationKey } from '@/data/portfolio';
+
+interface Props {
+  organization: OrganizationKey;
+  linked?: boolean;
+  compact?: boolean;
+  eager?: boolean;
+}
+
+const { organization, linked = false, compact = false, eager = false } = Astro.props;
+const item = organizations[organization];
+const classes = {
+  'organization-mark': true,
+  'organization-mark--compact': compact,
+  [`organization-mark--${organization}`]: true,
+  'organization-mark--dark': item.logoSurface === 'dark',
+};
+---
+
+{linked ? (
+  <a
+    class:list={classes}
+    href={item.url}
+    target="_blank"
+    rel="noopener noreferrer"
+    aria-label={`${item.name} — official website (opens in a new tab)`}
+  >
+    {item.logo ? (
+      <img
+        src={item.logo}
+        alt=""
+        width={item.logoWidth}
+        height={item.logoHeight}
+        loading={eager ? 'eager' : 'lazy'}
+        decoding="async"
+      />
+    ) : (
+      <span class="organization-mark__text">{item.shortName}</span>
+    )}
+  </a>
+) : (
+  <span
+    class:list={classes}
+  >
+    {item.logo ? (
+      <img
+        src={item.logo}
+        alt={item.name}
+        width={item.logoWidth}
+        height={item.logoHeight}
+        loading={eager ? 'eager' : 'lazy'}
+        decoding="async"
+      />
+    ) : (
+      <span class="organization-mark__text">{item.shortName}</span>
+    )}
+  </span>
+)}

@@ -1,0 +1,24 @@
+---
+interface Props {
+  id?: string;
+  eyebrow: string;
+  title: string;
+  description?: string;
+  action?: { label: string; href: string };
+}
+
+const { id, eyebrow, title, description, action } = Astro.props;
+---
+
+<header class="section-heading" data-reveal>
+  <p class="eyebrow">{eyebrow}</p>
+  <div class="section-heading__content">
+    <h2 id={id}>{title}</h2>
+    {description && <p>{description}</p>}
+  </div>
+  {action && (
+    <a class="text-link section-heading__action" href={action.href}>
+      {action.label}<span aria-hidden="true">→</span>
+    </a>
+  )}
+</header>

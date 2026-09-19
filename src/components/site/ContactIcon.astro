@@ -1,0 +1,11 @@
+---
+interface Props {
+  src: string;
+}
+
+const { src } = Astro.props;
+---
+
+<span class="contact-icon" aria-hidden="true">
+  <img src={src} alt="" loading="lazy" decoding="async" />
+</span>

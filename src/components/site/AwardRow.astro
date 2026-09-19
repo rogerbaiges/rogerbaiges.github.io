@@ -1,0 +1,40 @@
+---
+import type { AwardItem } from '@/data/portfolio';
+import OrganizationMark from './OrganizationMark.astro';
+
+interface Props {
+  item: AwardItem;
+}
+
+const { item } = Astro.props;
+---
+
+<article class="award-row" data-reveal>
+  <div class="award-row__visual">
+    <p class="award-row__year">{item.year}</p>
+    {item.organization && (
+      <OrganizationMark organization={item.organization} linked eager />
+    )}
+  </div>
+
+  <div class="award-row__main">
+    <div class="award-row__heading">
+      <div>
+        <h2>{item.title}</h2>
+        <p class="award-row__organizer">{item.organizer}</p>
+      </div>
+    </div>
+
+    <p class="award-row__description">{item.description}</p>
+
+    {item.links.length > 0 && (
+      <div class="award-row__links" role="group" aria-label={`${item.title} external links`}>
+        {item.links.map((link) => (
+          <a href={link.href} target="_blank" rel="noopener noreferrer">
+            {link.label}<span aria-hidden="true">↗</span>
+          </a>
+        ))}
+      </div>
+    )}
+  </div>
+</article>

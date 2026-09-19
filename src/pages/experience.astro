@@ -1,0 +1,105 @@
+---
+import OrganizationMark from '@/components/site/OrganizationMark.astro';
+import { education, experience, organizations } from '@/data/portfolio';
+import SiteLayout from '@/layouts/SiteLayout.astro';
+---
+
+<SiteLayout
+  title="Experience & Education"
+  description="Roger Baiges Trilla’s current research at EPFL LTS4, earlier work at CVC–LAMP and Serimag, and advanced AI education."
+  canonicalPath="/experience/"
+  bodyClass="experience-page"
+>
+  <header class="site-shell page-intro page-intro--experience" data-reveal>
+    <p class="eyebrow">Experience</p>
+    <div class="page-intro__main">
+      <h1>Experience &amp; Education</h1>
+      <p class="page-intro__lede">
+        Current research at EPFL, earlier foundation-model work at CVC, and private AI
+        systems developed in industry.
+      </p>
+    </div>
+  </header>
+
+  <div class="site-shell experience-stack">
+    {experience.map((entry, index) => (
+      <section
+        class="experience-group"
+        id={entry.id}
+        aria-labelledby={`${entry.id}-heading`}
+      >
+        <header class="experience-group__header" data-reveal>
+          <p class="eyebrow">{entry.kind}</p>
+          <h2 id={`${entry.id}-heading`}>{entry.organizationLine}</h2>
+        </header>
+
+        <article class="experience-card" data-reveal style={`--reveal-order:${index}`}>
+          <header class="experience-card__header">
+            <div class="experience-card__identity">
+              <h3>{entry.role}</h3>
+              <p>{entry.period}</p>
+            </div>
+            <OrganizationMark organization={entry.organization} linked eager={index === 0} />
+          </header>
+
+          <p class="experience-card__summary">{entry.summary}</p>
+
+          {entry.collaborator && (
+            <p class="experience-card__collaborator">
+              With{' '}
+              <a href={entry.collaborator.href} target="_blank" rel="noopener noreferrer">
+                {entry.collaborator.name}
+              </a>, {entry.collaborator.role}.
+            </p>
+          )}
+
+          <ul class="experience-card__contributions">
+            {entry.contributions.map((contribution) => <li>{contribution}</li>)}
+          </ul>
+
+          <ul class="experience-card__focus" aria-label={`${entry.organizationLine} technical focus`}>
+            {entry.focus.map((item) => <li>{item}</li>)}
+          </ul>
+        </article>
+      </section>
+    ))}
+  </div>
+
+  <section class="site-shell education-section" aria-labelledby="education-heading">
+    <header class="education-section__header" data-reveal>
+      <p class="eyebrow">Education</p>
+      <h2 id="education-heading">Academic trajectory</h2>
+    </header>
+
+    <div class="education-grid">
+      {education.map((entry, index) => {
+        const organization = organizations[entry.organization];
+
+        return (
+          <article
+            class="education-card"
+            id={entry.id}
+            data-reveal
+            style={`--reveal-order:${index}`}
+          >
+            <div class="education-card__mark">
+              <OrganizationMark organization={entry.organization} linked />
+            </div>
+            <p class="education-card__period">{entry.period}</p>
+            <h3>{entry.degree}</h3>
+            <p class="education-card__detail">{entry.detail}</p>
+            <a
+              class="education-card__link"
+              href={entry.href}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label={`Visit ${organization.shortName} official website`}
+            >
+              Visit {organization.shortName}<span aria-hidden="true">↗</span>
+            </a>
+          </article>
+        );
+      })}
+    </div>
+  </section>
+</SiteLayout>

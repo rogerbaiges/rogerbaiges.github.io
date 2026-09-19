@@ -1,0 +1,94 @@
+---
+import { site } from '@/data/portfolio';
+
+interface Props {
+  currentPath: string;
+}
+
+const { currentPath } = Astro.props;
+
+function isCurrent(href: string): boolean {
+  const normalized = currentPath.endsWith('/') ? currentPath : `${currentPath}/`;
+  return normalized === href || (href !== '/' && normalized.startsWith(href));
+}
+---
+
+<header class="site-header" data-site-header>
+  <div class="site-shell site-header__inner">
+    <a class="site-mobile-brand" href="/" aria-label={`${site.shortName}, homepage`}>
+      {site.shortName}
+    </a>
+
+    <button
+      class="site-menu-button"
+      type="button"
+      aria-expanded="false"
+      aria-controls="site-navigation"
+      data-menu-button
+    >
+      <span class="site-menu-button__label">Menu</span>
+      <span class="site-menu-button__icon" aria-hidden="true">
+        <i></i><i></i>
+      </span>
+    </button>
+
+    <nav class="site-nav" id="site-navigation" aria-label="Primary navigation" data-site-nav>
+      {site.navigation.map((item) => (
+        <a
+          href={item.href}
+          class:list={{ 'site-nav__link': true, 'is-current': isCurrent(item.href) }}
+          aria-current={isCurrent(item.href) ? 'page' : undefined}
+        >
+          {item.label}
+        </a>
+      ))}
+    </nav>
+  </div>
+</header>
+
+<script>
+  function initSiteHeader() {
+    const header = document.querySelector<HTMLElement>('[data-site-header]');
+    if (!header || header.dataset.ready === 'true') return;
+
+    const button = header.querySelector<HTMLButtonElement>('[data-menu-button]');
+    const nav = header.querySelector<HTMLElement>('[data-site-nav]');
+    if (!button || !nav) return;
+
+    header.dataset.ready = 'true';
+
+    const closeMenu = () => {
+      button.setAttribute('aria-expanded', 'false');
+      nav.classList.remove('is-open');
+      document.documentElement.classList.remove('menu-open');
+    };
+
+    button.addEventListener('click', () => {
+      const willOpen = button.getAttribute('aria-expanded') !== 'true';
+      button.setAttribute('aria-expanded', String(willOpen));
+      nav.classList.toggle('is-open', willOpen);
+      document.documentElement.classList.toggle('menu-open', willOpen);
+    });
+
+    nav.querySelectorAll('a').forEach((link) => link.addEventListener('click', closeMenu));
+
+    document.addEventListener('keydown', (event) => {
+      if (event.key === 'Escape' && button.getAttribute('aria-expanded') === 'true') {
+        closeMenu();
+        button.focus();
+      }
+    });
+
+    document.addEventListener('click', (event) => {
+      if (button.getAttribute('aria-expanded') !== 'true') return;
+      if (event.target instanceof Node && !header.contains(event.target)) closeMenu();
+    });
+
+    window.matchMedia('(min-width: 801px)').addEventListener('change', (event) => {
+      if (event.matches) closeMenu();
+    });
+  }
+
+  document.addEventListener('astro:page-load', initSiteHeader);
+  if (document.readyState !== 'loading') initSiteHeader();
+</script>

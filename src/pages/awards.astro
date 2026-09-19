@@ -1,68 +1,29 @@
 ---
-import BaseLayout from '@components/layout/BaseLayout.astro';
-import { getConfig } from '@lib/config';
-import { loadCVData } from '@lib/content';
-
-const config = getConfig();
-if (!config.pages.awards) return Astro.redirect('/404');
-
-const awards = loadCVData().awards;
+import AwardRow from '@/components/site/AwardRow.astro';
+import { awards } from '@/data/portfolio';
+import SiteLayout from '@/layouts/SiteLayout.astro';
 ---
 
-<BaseLayout title="Awards" description="Selected distinctions across academic work, competitions, and project-based challenges.">
-  <div class="page-header animate-on-scroll">
-    <h1 class="text-3xl">Awards</h1>
-    <p class="mt-3 max-w-3xl text-[var(--color-text-secondary)]">
-      A compact overview of the distinctions that best reflect my academic record, project initiative, and competitive work.
-    </p>
-  </div>
+<SiteLayout
+  title="Awards & Recognition"
+  description="Hackathon wins, a Computer Vision Center research fellowship, and academic distinctions earned by Roger Baiges Trilla."
+  canonicalPath="/awards/"
+  bodyClass="awards-page"
+>
+  <header class="site-shell page-intro" data-reveal>
+    <p class="eyebrow">Awards</p>
+    <div class="page-intro__main">
+      <h1>Awards &amp; Recognition</h1>
+      <p class="page-intro__lede">
+        Hackathon wins, research support, and academic distinctions, each kept attached to
+        its verified scope.
+      </p>
+    </div>
+  </header>
 
-  <div class="space-y-4">
-    {awards.map(award => (
-      <article class="award-entry animate-on-scroll">
-        <div class="award-entry-date">{award.date}</div>
-        <div>
-          <h2 class="award-entry-title">{award.title}</h2>
-          <p class="award-entry-org">{award.organization}</p>
-          {award.description && <p class="mt-2 text-sm text-[var(--color-text-secondary)]">{award.description}</p>}
-        </div>
-      </article>
-    ))}
-  </div>
-</BaseLayout>
-
-<style>
-  .award-entry {
-    display: grid;
-    gap: 0.75rem;
-    padding: 1.25rem;
-    border-radius: 16px;
-    border: 1px solid var(--color-border);
-    background: color-mix(in srgb, var(--color-card-bg) 98%, transparent);
-  }
-
-  .award-entry-date {
-    font-family: var(--font-mono);
-    font-size: 0.78rem;
-    color: var(--color-text-secondary);
-  }
-
-  .award-entry-title {
-    font-size: 1.28rem;
-    line-height: 1.14;
-  }
-
-  .award-entry-org {
-    margin-top: 0.3rem;
-    color: var(--color-accent);
-    font-size: 0.95rem;
-  }
-
-  @media (min-width: 768px) {
-    .award-entry {
-      grid-template-columns: 8rem minmax(0, 1fr);
-      gap: 1.25rem;
-      align-items: start;
-    }
-  }
-</style>
+  <section class="site-shell awards-section" aria-label="Awards and recognition">
+    <div class="award-list">
+      {awards.map((item) => <AwardRow item={item} />)}
+    </div>
+  </section>
+</SiteLayout>

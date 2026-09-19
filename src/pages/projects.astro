@@ -1,182 +1,29 @@
 ---
-import BaseLayout from '@components/layout/BaseLayout.astro';
-import { getConfig } from '@lib/config';
-import { loadProjects } from '@lib/content';
-
-const config = getConfig();
-if (!config.pages.projects) return Astro.redirect('/404');
-
-const projects = loadProjects();
-
-function isExternalLink(href?: string): boolean {
-  return Boolean(href && href.startsWith('http'));
-}
+import ProjectCard from '@/components/site/ProjectCard.astro';
+import { projects } from '@/data/portfolio';
+import SiteLayout from '@/layouts/SiteLayout.astro';
 ---
 
-<BaseLayout title="Projects" description="Selected projects spanning low-resource language modeling, multimodal assistants, recommendation systems, and predictive modeling.">
-  <div class="page-header animate-on-scroll">
-    <h1 class="text-3xl">Projects</h1>
-    <p class="mt-3 max-w-3xl text-[var(--color-text-secondary)]">
-      A selective set of projects that show how I learn by building, prototyping, and iterating on concrete systems.
-    </p>
-  </div>
+<SiteLayout
+  title="Projects"
+  description="Independent and team-built AI projects by Roger Baiges Trilla across language models, multimodal systems, public services, forecasting, and recommendation."
+  canonicalPath="/projects/"
+  bodyClass="projects-page"
+>
+  <header class="site-shell page-intro" data-reveal>
+    <p class="eyebrow">Independent work</p>
+    <div class="page-intro__main">
+      <h1>Projects</h1>
+      <p class="page-intro__lede">
+        Six independent and team-built systems spanning language models, multimodal agents,
+        public services, forecasting, and recommendation.
+      </p>
+    </div>
+  </header>
 
-  <div class="space-y-6">
-    {projects.map(project => (
-      <article class="project-entry animate-on-scroll">
-        <div class="project-meta">
-          <p class="project-category">{project.category}</p>
-          {project.tags.length > 0 && (
-            <div class="project-tags">
-              {project.tags.slice(0, 3).map(tag => (
-                <span>{tag}</span>
-              ))}
-            </div>
-          )}
-        </div>
-
-        <div class="project-body">
-          <div class="flex flex-col gap-3 md:flex-row md:items-start md:justify-between">
-            <div>
-              <h2 class="project-title">{project.title}</h2>
-              <p class="project-description">{project.description}</p>
-            </div>
-
-            <div class="project-actions">
-              {project.github && (
-                <a
-                  href={project.github}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  class="project-link"
-                >
-                  GitHub
-                  <span aria-hidden="true">↗</span>
-                </a>
-              )}
-
-              {project.url && project.url !== project.github && (
-                <a
-                  href={project.url}
-                  target={isExternalLink(project.url) ? '_blank' : undefined}
-                  rel={isExternalLink(project.url) ? 'noopener noreferrer' : undefined}
-                  class="project-link project-link-subtle"
-                >
-                  Project
-                  <span aria-hidden="true">↗</span>
-                </a>
-              )}
-            </div>
-          </div>
-
-          <p class="project-detail">{project.content}</p>
-        </div>
-      </article>
-    ))}
-  </div>
-</BaseLayout>
-
-<style>
-  .project-entry {
-    display: grid;
-    gap: 1.35rem;
-    padding: 1.25rem;
-    border-radius: 18px;
-    border: 1px solid var(--color-border);
-    background: color-mix(in srgb, var(--color-card-bg) 98%, transparent);
-    transition: transform var(--transition-base), border-color var(--transition-base), box-shadow var(--transition-base);
-  }
-
-  .project-entry:hover {
-    transform: translateY(-2px);
-    border-color: color-mix(in srgb, var(--color-accent) 32%, var(--color-border));
-    background: color-mix(in srgb, var(--color-accent) 4%, var(--color-card-bg));
-    box-shadow: var(--shadow-hover);
-  }
-
-  .project-category {
-    font-family: var(--font-mono);
-    font-size: 0.72rem;
-    letter-spacing: 0.16em;
-    text-transform: uppercase;
-    color: var(--color-text-secondary);
-  }
-
-  .project-tags {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.5rem;
-    margin-top: 1rem;
-  }
-
-  .project-tags span {
-    padding: 0.2rem 0.65rem;
-    border-radius: 999px;
-    font-size: 0.76rem;
-    background: color-mix(in srgb, var(--color-border) 84%, transparent);
-    color: var(--color-text-secondary);
-  }
-
-  .project-title {
-    font-size: 1.8rem;
-    line-height: 1.08;
-  }
-
-  .project-description {
-    margin-top: 0.5rem;
-    color: var(--color-accent);
-  }
-
-  .project-detail {
-    margin-top: 1rem;
-    max-width: 50rem;
-    color: var(--color-text-secondary);
-  }
-
-  .project-actions {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.65rem;
-  }
-
-  .project-link {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.35rem;
-    padding: 0.65rem 1rem;
-    border: 1px solid var(--color-border);
-    border-radius: 999px;
-    white-space: nowrap;
-    color: var(--color-text);
-    background: color-mix(in srgb, var(--color-card-bg) 94%, transparent);
-    transition: border-color var(--transition-base), background-color var(--transition-base), color var(--transition-base), transform var(--transition-base);
-  }
-
-  .project-link:hover {
-    border-color: var(--color-accent);
-    color: var(--color-accent);
-    background: color-mix(in srgb, var(--color-accent) 6%, var(--color-card-bg));
-    box-shadow: var(--shadow-sm);
-    transform: translateY(-1px);
-    text-decoration: none;
-  }
-
-  .project-link span {
-    transition: transform var(--transition-base);
-  }
-
-  .project-link:hover span {
-    transform: translate(2px, -2px);
-  }
-
-  .project-link-subtle {
-    color: var(--color-text-secondary);
-  }
-
-  @media (min-width: 960px) {
-    .project-entry {
-      grid-template-columns: 220px minmax(0, 1fr);
-      align-items: start;
-    }
-  }
-</style>
+  <section class="site-shell projects-section" aria-label="Selected projects">
+    <div class="project-grid">
+      {projects.map((project) => <ProjectCard project={project} />)}
+    </div>
+  </section>
+</SiteLayout>

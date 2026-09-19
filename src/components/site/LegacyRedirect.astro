@@ -1,0 +1,100 @@
+---
+interface Props {
+  destination: string;
+  canonicalPath: string;
+  title: string;
+  heading: string;
+  linkLabel: string;
+  description: string;
+}
+
+const {
+  destination,
+  canonicalPath,
+  title,
+  heading,
+  linkLabel,
+  description,
+} = Astro.props;
+
+const canonicalUrl = new URL(
+  canonicalPath,
+  Astro.site ?? new URL('https://rogerbaiges.github.io'),
+).href;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="robots" content="noindex, nofollow" />
+    <meta name="description" content={description} />
+    <meta http-equiv="refresh" content={`0;url=${destination}`} />
+    <link rel="canonical" href={canonicalUrl} />
+    <title>{title} — Roger Baiges Trilla</title>
+  </head>
+  <body>
+    <main>
+      <p class="redirect-label">Roger Baiges Trilla</p>
+      <h1>{heading}</h1>
+      <p>
+        You should be redirected immediately. If not,{' '}
+        <a href={destination}>{linkLabel}</a>.
+      </p>
+    </main>
+  </body>
+</html>
+
+<style>
+  :global(*) {
+    box-sizing: border-box;
+  }
+
+  :global(body) {
+    display: grid;
+    min-height: 100vh;
+    margin: 0;
+    padding: 2rem;
+    place-items: center;
+    background: #f7f8fa;
+    color: #101820;
+    font-family: Arial, Helvetica, sans-serif;
+  }
+
+  main {
+    width: min(100%, 38rem);
+  }
+
+  .redirect-label {
+    margin: 0 0 1rem;
+    color: #65717d;
+    font-size: 0.78rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+
+  h1 {
+    margin: 0;
+    font-size: clamp(2rem, 7vw, 3.25rem);
+    letter-spacing: -0.045em;
+    line-height: 1;
+  }
+
+  p {
+    margin: 1.25rem 0 0;
+    line-height: 1.65;
+  }
+
+  a {
+    color: #0d4d80;
+    font-weight: 700;
+    text-underline-offset: 0.18em;
+  }
+
+  a:focus-visible {
+    outline: 3px solid #0d4d80;
+    outline-offset: 4px;
+  }
+</style>

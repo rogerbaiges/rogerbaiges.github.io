@@ -1,0 +1,41 @@
+---
+import type { ProjectItem } from '@/data/portfolio';
+
+interface Props {
+  project: ProjectItem;
+}
+
+const { project } = Astro.props;
+---
+
+<article class="project-card" id={project.slug} data-reveal>
+  <header class="project-card__header">
+    <p class="project-card__context">{project.context}</p>
+    <p class="project-card__year">{project.year}</p>
+  </header>
+
+  <div class="project-card__body">
+    <h2>{project.name}</h2>
+    <div class="project-card__content">
+      <p class="project-card__description">{project.description}</p>
+      <p class="project-card__outcome">
+        <span>Outcome</span>
+        <strong>{project.outcome}</strong>
+      </p>
+    </div>
+  </div>
+
+  <footer class="project-card__footer">
+    <ul class="project-card__technologies" aria-label={`${project.name} technologies`}>
+      {project.technologies.map((technology) => <li>{technology}</li>)}
+    </ul>
+
+    <div class="project-card__links" role="group" aria-label={`${project.name} external links`}>
+      {project.links.map((link) => (
+        <a href={link.href} target="_blank" rel="noopener noreferrer">
+          {link.label}<span aria-hidden="true">↗</span>
+        </a>
+      ))}
+    </div>
+  </footer>
+</article>

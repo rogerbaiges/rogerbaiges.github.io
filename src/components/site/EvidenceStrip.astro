@@ -1,0 +1,32 @@
+---
+import { evidence } from '@/data/portfolio';
+import OrganizationMark from './OrganizationMark.astro';
+---
+
+<aside class="evidence-strip" aria-label="Selected credentials">
+  <div class="site-shell evidence-strip__inner">
+    {evidence.map((item, index) => (
+      <a
+        class="evidence-item"
+        href={item.href}
+        target={item.href.startsWith('http') ? '_blank' : undefined}
+        rel={item.href.startsWith('http') ? 'noopener noreferrer' : undefined}
+        aria-label={`${item.label}: ${item.value}${item.href.startsWith('http') ? ' (opens in a new tab)' : ''}`}
+        data-reveal
+        style={`--reveal-order:${index}`}
+      >
+        <span class="evidence-item__identity">
+          {item.organization ? (
+            <OrganizationMark organization={item.organization} compact eager />
+          ) : (
+            <span class="evidence-item__label">{item.label}</span>
+          )}
+        </span>
+        <strong>{item.value}</strong>
+        <span class="evidence-item__arrow" aria-hidden="true">
+          {item.href.startsWith('http') ? '↗' : '→'}
+        </span>
+      </a>
+    ))}
+  </div>
+</aside>

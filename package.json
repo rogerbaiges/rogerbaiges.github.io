@@ -1,28 +1,28 @@
 {
-  "name": "lumina",
+  "name": "roger-baiges-portfolio",
   "type": "module",
-  "version": "0.1.0",
-  "_versionNote": "Version follows semver. Bump on each release.",
+  "version": "1.0.0",
+  "private": true,
+  "description": "The personal portfolio of AI researcher and engineer Roger Baiges Trilla.",
+  "engines": {
+    "node": ">=22.12.0"
+  },
   "scripts": {
     "dev": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
     "astro": "astro",
-    "test": "vitest run",
-    "test:watch": "vitest"
+    "check": "astro check",
+    "test": "node --test tests/portfolio.test.mjs",
+    "test:watch": "node --test --watch tests/portfolio.test.mjs"
   },
   "dependencies": {
-    "@astrojs/mdx": "^4.3.13",
-    "@astrojs/rss": "^4.0.15",
-    "@astrojs/sitemap": "^3.7.0",
-    "@tailwindcss/vite": "^4.1.18",
-    "astro": "^5.17.1",
-    "lucide-astro": "^0.556.0",
-    "sharp": "^0.34.5",
-    "tailwindcss": "^4.1.18",
-    "yaml": "^2.8.2"
+    "@astrojs/sitemap": "^3.7.3",
+    "astro": "^7.2.2",
+    "sharp": "^0.35.3"
   },
   "devDependencies": {
-    "vitest": "^3.2.4"
+    "@astrojs/check": "^0.9.10",
+    "typescript": "^6.0.3"
   }
 }

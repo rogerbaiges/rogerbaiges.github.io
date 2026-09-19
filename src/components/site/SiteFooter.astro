@@ -1,0 +1,29 @@
+---
+import { contacts, site } from '@/data/portfolio';
+---
+
+<footer class="site-footer">
+  <div class="site-shell site-footer__inner">
+    <div class="site-footer__identity">
+      <strong>{site.name}</strong>
+      <span>{site.role}</span>
+    </div>
+
+    <nav class="site-footer__links" aria-label="Contact and professional profiles">
+      {contacts.map((item) => (
+        <a
+          href={item.href}
+          target={item.href.startsWith('http') ? '_blank' : undefined}
+          rel={item.href.startsWith('http') ? 'noopener noreferrer' : undefined}
+        >
+          {item.label}<span aria-hidden="true">↗</span>
+        </a>
+      ))}
+    </nav>
+  </div>
+
+  <div class="site-shell site-footer__base">
+    <span>© 2026 Roger Baiges Trilla. All rights reserved.</span>
+    <a href="#top">Back to top <span aria-hidden="true">↑</span></a>
+  </div>
+</footer>
