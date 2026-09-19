@@ -118,6 +118,47 @@ const personSchema = {
     <script is:inline type="application/ld+json" set:html={JSON.stringify(personSchema)} />
     <slot name="head" />
     <script is:inline>document.documentElement.classList.add('has-js');</script>
+    <script is:inline>
+      (function () {
+        var storageKey = 'portfolio:navigation-scroll-target';
+
+        function resetRequestedNavigationScroll() {
+          var target = null;
+          try {
+            target = sessionStorage.getItem(storageKey);
+          } catch (error) {
+            return;
+          }
+
+          if (target !== location.pathname + location.search || location.hash) return;
+          sessionStorage.removeItem(storageKey);
+
+          var root = document.documentElement;
+          var previousBehavior = root.style.scrollBehavior;
+          var canControlRestoration = 'scrollRestoration' in history;
+          var previousRestoration = canControlRestoration ? history.scrollRestoration : 'auto';
+
+          if (canControlRestoration) history.scrollRestoration = 'manual';
+          root.style.scrollBehavior = 'auto';
+          window.scrollTo(0, 0);
+
+          requestAnimationFrame(function () {
+            window.scrollTo(0, 0);
+            requestAnimationFrame(function () {
+              root.style.scrollBehavior = previousBehavior;
+              if (canControlRestoration) history.scrollRestoration = previousRestoration;
+            });
+          });
+        }
+
+        window.addEventListener('pageshow', resetRequestedNavigationScroll);
+        if (document.readyState === 'loading') {
+          document.addEventListener('DOMContentLoaded', resetRequestedNavigationScroll, { once: true });
+        } else {
+          resetRequestedNavigationScroll();
+        }
+      })();
+    </script>
   </head>
   <body class={bodyClass} id="top">
     <a class="skip-link" href="#main-content">Skip to content</a>

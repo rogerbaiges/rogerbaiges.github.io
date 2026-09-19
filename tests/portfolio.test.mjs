@@ -236,6 +236,18 @@ test('projects stay content-led and logo stages are normalized', () => {
   assert.match(styles, /\.organization-mark--compact\s*\{[^}]*width:\s*min\(100%,\s*8\.75rem\)[^}]*height:\s*3rem/s);
 });
 
+test('primary navigation requests a top reset without overriding hash navigation', () => {
+  const header = read('src/components/site/SiteHeader.astro');
+  const layout = read('src/layouts/SiteLayout.astro');
+
+  assert.match(header, /portfolio:navigation-scroll-target/);
+  assert.match(header, /target\.hash/);
+  assert.match(layout, /resetRequestedNavigationScroll/);
+  assert.match(layout, /addEventListener\('pageshow'/);
+  assert.match(layout, /history\.scrollRestoration = 'manual'/);
+  assert.match(layout, /window\.scrollTo\(0, 0\)/);
+});
+
 test('critical PDF, organization marks, and contact identities exist', () => {
   const cv = readFileSync(new URL('public/files/RogerBaigesCV.pdf', root));
   assert.equal(cv.subarray(0, 4).toString(), '%PDF');
